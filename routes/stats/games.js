@@ -1,14 +1,22 @@
 const router = require('express').Router()
+const axios = require('axios')
 
-const nba = require('../../config/nbaApi')
+const keys = require('../../config/keys')
 
-// @route   GET /stats/today
+const config = {
+  headers: {
+    'X-RapidAPI-Host': keys.XRapidAPIHost,
+    'X-RapidAPI-Key': keys.XRapidAPIKey
+  }
+}
+
+// @route   GET /stats/games/today
 // @desc    Get all games and scores from the current day
 // @access  Public
 router.get('/today', (req, res) => {
-  axios.get(`${nba.NBAAPIURL}/games/date/2019-04-14`, nba.config)
-    .then(res => console.log(JSON.stringify(res.data, undefined, 2)))
-    .catch(err => console.log(err))
+  axios.get(`${keys.nbaApiURL}/games/date/2019-04-14`, config)
+    .then(d => {return res.json(d.data.api)})
+    .catch(err => {return res.send(err)})
 })
 
 module.exports = router;
