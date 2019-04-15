@@ -5,8 +5,6 @@ const bodyParser = require('body-parser')
 const date = require('date-and-time')
 const axios = require('axios')
 
-const NBA = require('./config/nbaApi')
-
 // Routes
 const test = require('./routes/api/test')
 
@@ -29,10 +27,6 @@ app.use('/api/test', test)
 
 app.get('/', (req, res) => {
   res.send('<h1>ESPN Sucks. Heres a better NBA Fantasy league</h1>')
-})
-
-app.get('/games/today', (req, res) => {
-  res.send()
 })
 
 const PORT = process.env.PORT || 4000
