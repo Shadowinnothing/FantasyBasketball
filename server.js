@@ -7,6 +7,7 @@ const axios = require('axios')
 
 // Routes
 const test = require('./routes/api/test')
+const games = require('./routes/api/games')
 
 // Initialize application
 const app = express()
@@ -24,6 +25,7 @@ app.use(passport.initialize())
 
 // use routes
 app.use('/api/test', test)
+app.use('/stats/games', games)
 
 app.get('/', (req, res) => {
   res.send('<h1>ESPN Sucks. Heres a better NBA Fantasy league</h1>')
