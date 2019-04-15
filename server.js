@@ -19,7 +19,7 @@ app.use(bodyParser.json())
 app.use(passport.initialize())
 
 // Passport Config
-require('./config/passport')(passport)
+//require('./config/passport')(passport)
 
 // use routes
 app.use('/api/test', test)
