@@ -7,7 +7,7 @@ const axios = require('axios')
 
 // Routes
 const test = require('./routes/api/test')
-const games = require('./routes/api/games')
+const games = require('./routes/stats/games')
 
 // Initialize application
 const app = express()
