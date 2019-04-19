@@ -4,6 +4,7 @@ const passport = require('passport')
 const bodyParser = require('body-parser')
 const date = require('date-and-time')
 const axios = require('axios')
+const path = require('path')
 
 // Routes
 const test = require('./routes/api/test')
@@ -15,6 +16,9 @@ const app = express()
 // Body Parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+
+// React Middleware
+app.use(express.static(path.join(__dirname, '/client/build')))
 
 // Passport Middleware
 app.use(passport.initialize())
@@ -28,7 +32,7 @@ app.use('/api/test', test)
 app.use('/stats/games', games)
 
 app.get('/', (req, res) => {
-  res.send('<h1>ESPN Sucks. Heres a better NBA Fantasy league</h1>')
+  res.sendFile(path.join(__dirname + '/client/src/index.js'))
 })
 
 const PORT = process.env.PORT || 4000

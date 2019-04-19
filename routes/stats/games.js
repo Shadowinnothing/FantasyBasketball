@@ -10,6 +10,8 @@ const config = {
   }
 }
 
+// CONVERT TO TODAYS GAMES!!!!
+
 // @route   GET /stats/games/today
 // @desc    Get all games and scores from the current day
 // @access  Public
