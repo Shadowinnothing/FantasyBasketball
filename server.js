@@ -31,6 +31,11 @@ app.use(passport.initialize())
 app.use('/api/test', test)
 app.use('/stats/games', games)
 
+// Connect to Front end
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
     console.log(`[${date.format(new Date(), 'hh:mm:ss')}] Server running on port: ${PORT}`)
