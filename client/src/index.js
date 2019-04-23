@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom'
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const jsx = (
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <App />
 )
 
 ReactDOM.render(jsx, document.getElementById('root'));
