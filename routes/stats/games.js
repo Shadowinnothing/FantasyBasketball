@@ -22,4 +22,10 @@ router.get('/today', (req, res) => {
     .catch(err => {return res.send(err)})
 })
 
+// @route   GET /stats/games/day/:date
+// @desc    Get all games and scores from any given day
+// @access  Public
+router.get('/date/:date', (req, res) => {
+  axios.get()
+})
 module.exports = router;
