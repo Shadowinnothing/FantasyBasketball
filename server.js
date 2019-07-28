@@ -30,11 +30,12 @@ app.use(passport.initialize())
 // use routes
 app.use('/api/test', test)
 app.use('/stats/games', games)
+app.use('/stats/players', games)
 
 // Connect to Front end
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-});
+//app.get("*", (req, res) => {
+//    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+//});
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {

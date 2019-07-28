@@ -8,7 +8,6 @@ class App extends Component {
     return (
         <BrowserRouter>
           <Route exact path='/' component={ ModeSelector } />
-          <Route exact path='/' component={ ModeSelector } />
         </BrowserRouter>
     )
   }
