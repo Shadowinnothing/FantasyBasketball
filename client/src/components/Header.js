@@ -5,10 +5,11 @@ import { teamNames } from '../utils/getTeamName'
 const githubCodeUrl = 'https://github.com/Shadowinnothing/FantasyBasketball'
 
 const renderTeams = () => {
-    const nums = Array.from(Array(32).keys())
+    //const nums = Array.from(Array(32).keys())
     // Remove 0 because this is a stupid 1 based list
-    nums.shift()
-    return nums.map(num => <div className="item" key={teamNames[num]} >{ teamNames[num] }</div> )
+    //nums.shift()
+    //return nums.map(num =>  )
+    return teamNames.map(({ name, teamId }) => <div className="item" key={teamId} >{ name }</div>)
 }
 
 const Header = props => {

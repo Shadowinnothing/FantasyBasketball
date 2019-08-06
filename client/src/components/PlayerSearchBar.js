@@ -19,14 +19,23 @@ export default class PlayerSearchBar extends Component {
 
         if(!res.data.api.players.length)
             window.alert(`No Players named '${ term }' found`)
+        
+        // get rid of players not on an nba team
+        let filteredPlayers = players.filter(player => typeof player.teamId === 'string' )
 
         // Add the team Name to filteredPlayers
-        let filteredPlayers = players.map(player =>  ({ ...player, teamName: getTeamName(player.teamId)}))
-
-        // get rid of players not on an nba team
-        filteredPlayers = filteredPlayers.filter(player => typeof player.teamName === 'string' )
-
-        console.log(filteredPlayers)
+        filteredPlayers = filteredPlayers.map(player =>  {
+            if(typeof player.teamId === 'string')
+                return {
+                    ...player,
+                    teamName: getTeamName( player.teamId )
+                }
+            // extra line of defense
+            else return {
+                ...player,
+                teamName: 'Team Name Not Found'
+            }
+        })
 
         this.setState({ players: filteredPlayers })
     }

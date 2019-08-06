@@ -1,40 +1,40 @@
-const teamNames = {
-    "1": "Atlanta Hawks",
-    "2": "Boston Celtics",
-    "3": "Brisbane Bullets",
-    "4": "Brooklyn Nets",
-    "5": "Charlotte Hornets",
-    "6": "Chicago Bulls",
-    "7": "Cleveland Cavaliers",
-    "8": "Dallas Mavericks",
-    "9": "Denver Nuggets",
-    "10": "Detroit Pistons",
-    "11": "Golden State Warriors",
-    "14": "Houston Rockets",
-    "15": "Indiana Pacers",
-    "16": "LA Clippers",
-    "17": "Los Angeles Lakers",
-    "19": "Memphis Grizzlies",
-    "20": "Miami Heat",
-    "21": "Milwaukee Bucks",
-    "22": "Minnesota Timberwolves",
-    "23": "New Orleans Pelicans",
-    "24": "New York Knicks",
-    "25": "Oklahoma City Thunder",
-    "26": "Orlando Magic",
-    "27": "Philadelphia 76ers",
-    "28": "Phoenix Suns",
-    "29": "Portland Trail Blazers",
-    "30": "Sacramento Kings",
-    "31": "San Antonio Spurs",
-    "38": "Toronto Raptors",
-    "40": "Utah Jazz",
-    "41": "Washington Wizards"
-}
+const teamNames = [
+    { teamId: 1, name: "Atlanta Hawks" },
+    { teamId: 2, name: "Boston Celtics" },
+    { teamId: 4, name: "Brooklyn Nets" },
+    { teamId: 5, name: "Charlotte Hornets" },
+    { teamId: 6, name: "Chicago Bulls" },
+    { teamId: 7, name: "Cleveland Cavaliers" },
+    { teamId: 8, name: "Dallas Mavericks" },
+    { teamId: 9, name: "Denver Nuggets" },
+    { teamId: 10, name: "Detroit Pistons" },
+    { teamId: 11, name: "Golden State Warriors" },
+    { teamId: 14, name: "Houston Rockets" },
+    { teamId: 15, name: "Indiana Pacers" },
+    { teamId: 16, name: "LA Clippers" },
+    { teamId: 17, name: "Los Angeles Lakers" },
+    { teamId: 19, name: "Memphis Grizzlies" },
+    { teamId: 20, name: "Miami Heat" },
+    { teamId: 21, name: "Milwaukee Bucks" },
+    { teamId: 22, name: "Minnesota Timberwolves" },
+    { teamId: 23, name: "New Orleans Pelicans" },
+    { teamId: 24, name: "New York Knicks" },
+    { teamId: 25, name: "Oklahoma City Thunder" },
+    { teamId: 26, name: "Orlando Magic" },
+    { teamId: 27, name: "Philadelphia 76ers" },
+    { teamId: 28, name: "Phoenix Suns" },
+    { teamId: 29, name: "Portland Trail Blazers" },
+    { teamId: 30, name: "Sacramento Kings" },
+    { teamId: 31, name: "San Antonio Spurs" },
+    { teamId: 38, name: "Toronto Raptors" },
+    { teamId: 40, name: "Utah Jazz" },
+    { teamId: 41, name: "Washington Wizards" }
+]
 
 // Just in case this can be used elsewhere
 export { teamNames }
 
-export const getTeamName = teamId => {
-    return teamNames[teamId]
+export const getTeamName = _teamId => {
+    const player = teamNames.find(el => el.teamId === parseInt(_teamId))
+    return typeof player.name === 'string' ? player.name : 'TEAM NAME NOT FOUND'
 }
