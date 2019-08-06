@@ -10,13 +10,10 @@ const teamNames = {
     "9": "Denver Nuggets",
     "10": "Detroit Pistons",
     "11": "Golden State Warriors",
-    "12": "Guangzhou Long-Lions",
-    "13": "Haifa Maccabi Haifa",
     "14": "Houston Rockets",
     "15": "Indiana Pacers",
     "16": "LA Clippers",
     "17": "Los Angeles Lakers",
-    "18": "Melbourne United",
     "19": "Memphis Grizzlies",
     "20": "Miami Heat",
     "21": "Milwaukee Bucks",
@@ -30,7 +27,13 @@ const teamNames = {
     "29": "Portland Trail Blazers",
     "30": "Sacramento Kings",
     "31": "San Antonio Spurs",
+    "38": "Toronto Raptors",
+    "40": "Utah Jazz",
+    "41": "Washington Wizards"
 }
+
+// Just in case this can be used elsewhere
+export { teamNames }
 
 export const getTeamName = teamId => {
     return teamNames[teamId]

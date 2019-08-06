@@ -55,7 +55,6 @@ export default class PlayerSearchBar extends Component {
                                 onChange={ e => this.setState({ term: e.target.value }) }
                             />
                         </div>
-                        
                     </form>
                     <br />
                     <button onClick={ () => this.setState({ term: '' }) }>Clear</button>

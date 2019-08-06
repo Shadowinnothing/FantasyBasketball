@@ -3,3 +3,4 @@ package-lock.json
 config/dev.js
 keys/
 .vscode
+playground.js
