@@ -3,20 +3,24 @@ import { connect } from 'react-redux'
 
 import PlayerCard from './PlayerCard'
 
-import nba from '../apis/nba'
+//import nba from '../apis/nba'
+import axios from 'axios'
 
-import { getAllNBATeams } from '../redux/actions'
+import { getAllNBATeams, getAllNBAPlayers } from '../redux/actions'
 
 class PlayerSearchBar extends Component {
 
     state = {
         noPlayers: true,
         term: '',
-        players: []
+        players: [],
+        tempPlayers: []
     }
 
     componentDidMount = () => {
         this.props.getAllNBATeams()
+        this.props.getAllNBAPlayers()
+        //this.setPlayers()
     }
 
     getTeamName = _teamId => {
@@ -24,11 +28,18 @@ class PlayerSearchBar extends Component {
         return typeof player.name === 'string' ? player.name : 'TEAM NAME NOT FOUND'
     }
 
-    onSubmit = async term => {
-        const res = await nba.get(`/players/lastName/${term}`)
-        const players = res.data.api.players
+    // setPlayers = () => {
+    //     this.props.NBAPlayers.then(res => {
+    //         if(res)
+    //             this.setState({ tempPlayers: res.allNBAPlayers.data.players })
+    //     })
+    // }
 
-        if(!res.data.api.players.length)
+    onSubmit = async term => {
+        const res = await axios.get(`/stats/players/search/${term}`)
+        const players = res.data.relatedPlayers
+
+        if(!players.length)
             window.alert(`No Players named '${ term }' found`)
         
         // get rid of players not on an nba team
@@ -86,6 +97,7 @@ class PlayerSearchBar extends Component {
                 <div className="ui cards" >
                     { this.state.noPlayers ? <h2>No Players Found</h2> : this.mapPlayers() }
                 </div>
+                { this.state.tempPlayers.map(player => <h1 key={player.playerId}>{ player.lastName }</h1>) }
             </div>
         )
     }
@@ -93,8 +105,9 @@ class PlayerSearchBar extends Component {
 
 const mapStateToProps = state => {
     return {
-        NBATeams: state.NBATeams.allNBATeams // <- all NBA Teams
+        NBATeams: state.NBATeams.allNBATeams,   // <- all NBA Teams
+        NBAPlayers: state.NBAPlayers            // <- all NBA Players, this is a promise and super stupid and ugly code
     }
 }
 
-export default connect(mapStateToProps, { getAllNBATeams })(PlayerSearchBar)
+export default connect(mapStateToProps, { getAllNBATeams, getAllNBAPlayers })(PlayerSearchBar)

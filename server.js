@@ -9,6 +9,7 @@ const path = require('path')
 // Routes
 const test = require('./routes/api/test')
 const games = require('./routes/stats/games')
+const players = require('./routes/stats/players')
 
 // Initialize application
 const app = express()
@@ -30,12 +31,7 @@ app.use(passport.initialize())
 // use routes
 app.use('/api/test', test)
 app.use('/stats/games', games)
-app.use('/stats/players', games)
-
-// Connect to Front end
-//app.get("*", (req, res) => {
-//    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
-//});
+app.use('/stats/players', players)
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
