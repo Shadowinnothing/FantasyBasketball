@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import { teamNames } from '../utils/getTeamName'
 
@@ -15,9 +16,9 @@ const renderTeams = () => {
 const Header = props => {
     return (
         <div className="ui menu">
-            <div className="header item">
+            <Link className="header item" to="/">
                 Haig/Turley Fantasy Hoops
-            </div>
+            </Link>
             <div className="ui simple dropdown item">
                 Teams
                 <i className="dropdown icon"></i>
@@ -28,9 +29,9 @@ const Header = props => {
             <a className="item" href={ githubCodeUrl }>
                 Source Code!
             </a>
-            <a className="item" href="/">
-                Locations
-            </a>
+            <Link className="item" to="/playerSearch">
+                Search By Last Name
+            </Link>
         </div>
     )
 }
