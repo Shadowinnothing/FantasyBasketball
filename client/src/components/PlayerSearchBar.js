@@ -1,16 +1,27 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
 import PlayerCard from './PlayerCard'
 
 import nba from '../apis/nba'
 
-import { getTeamName } from '../utils/getTeamName'
+import { getAllNBATeams } from '../redux/actions'
 
-export default class PlayerSearchBar extends Component {
+class PlayerSearchBar extends Component {
 
     state = {
+        noPlayers: true,
         term: '',
         players: []
+    }
+
+    componentDidMount = () => {
+        this.props.getAllNBATeams()
+    }
+
+    getTeamName = _teamId => {
+        const player = this.props.NBATeams.find(el => el.teamId === parseInt(_teamId))
+        return typeof player.name === 'string' ? player.name : 'TEAM NAME NOT FOUND'
     }
 
     onSubmit = async term => {
@@ -28,7 +39,7 @@ export default class PlayerSearchBar extends Component {
             if(typeof player.teamId === 'string')
                 return {
                     ...player,
-                    teamName: getTeamName( player.teamId )
+                    teamName: this.getTeamName( player.teamId )
                 }
             // extra line of defense
             else return {
@@ -36,8 +47,12 @@ export default class PlayerSearchBar extends Component {
                 teamName: 'Team Name Not Found'
             }
         })
-
-        this.setState({ players: filteredPlayers })
+        
+        if(!filteredPlayers.length){
+            this.setState({ players: [], noPlayers: true })
+        } else {
+            this.setState({ players: filteredPlayers, noPlayers: false })
+        }
     }
 
     mapPlayers = () => this.state.players.map(player => <PlayerCard key={player.playerId} player={player} />)
@@ -69,9 +84,17 @@ export default class PlayerSearchBar extends Component {
                     <button onClick={ () => this.setState({ term: '' }) }>Clear</button>
                 </div>
                 <div className="ui cards" >
-                    { this.mapPlayers() }
+                    { this.state.noPlayers ? <h2>No Players Found</h2> : this.mapPlayers() }
                 </div>
             </div>
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        NBATeams: state.NBATeams.allNBATeams // <- all NBA Teams
+    }
+}
+
+export default connect(mapStateToProps, { getAllNBATeams })(PlayerSearchBar)

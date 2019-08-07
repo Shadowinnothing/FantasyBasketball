@@ -31,10 +31,13 @@ const teamNames = [
     { teamId: 41, name: "Washington Wizards" }
 ]
 
-// Just in case this can be used elsewhere
-export { teamNames }
-
-export const getTeamName = _teamId => {
-    const player = teamNames.find(el => el.teamId === parseInt(_teamId))
-    return typeof player.name === 'string' ? player.name : 'TEAM NAME NOT FOUND'
+const TeamReducer = (state = {}, action) => {
+    switch(action.type){
+        case 'GET_ALL_NBA_TEAMS':
+            return { ...state, allNBATeams: teamNames }
+        default:
+            return state
+    }
 }
+
+export default TeamReducer
