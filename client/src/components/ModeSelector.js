@@ -15,6 +15,7 @@ export default class ModeSelector extends Component {
         return (
             <div>
                 <DefaultModeSelector>
+                    <h3>None of these buttons work lol</h3>
                     <DefaultButton>Standard Mode</DefaultButton>
                     <DefaultButton>Dynsty Mode</DefaultButton>
                     <DefaultButton>Daily Fantasy Mode</DefaultButton>

@@ -5,12 +5,10 @@ import { teamNames } from '../utils/getTeamName'
 
 const githubCodeUrl = 'https://github.com/Shadowinnothing/FantasyBasketball'
 
+// Returns array of Link tagged Team names
+// Takes the user to /teams/{team_Name} 
 const renderTeams = () => {
-    //const nums = Array.from(Array(32).keys())
-    // Remove 0 because this is a stupid 1 based list
-    //nums.shift()
-    //return nums.map(num =>  )
-    return teamNames.map(({ name, teamId }) => <div className="item" key={teamId} >{ name }</div>)
+    return teamNames.map(({ name, teamId }) => <Link className="item" key={ teamId } to={`/teams/${ name.replace(/\s/g, "_") }`} >{ name }</Link>)
 }
 
 const Header = props => {
@@ -23,15 +21,15 @@ const Header = props => {
                 Teams
                 <i className="dropdown icon"></i>
                 <div className="menu">
-                { renderTeams() }
+                    { renderTeams() }
                 </div>
             </div>
-            <a className="item" href={ githubCodeUrl }>
-                Source Code!
-            </a>
             <Link className="item" to="/playerSearch">
                 Search By Last Name
             </Link>
+            <a className="item" href={ githubCodeUrl }>
+                Source Code!
+            </a>
         </div>
     )
 }
