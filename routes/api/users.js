@@ -11,7 +11,8 @@ const User = require('../../models/user')
 router.post('/', [
     check('name', 'Name is Required').not().isEmpty(),
     check('email', 'Email is Required').isEmail(),
-    check('password', 'Password is Required (Minimum 6 Characters)').isLength({ min: 6 })
+    check('password', 'Password is Required (Minimum 6 Characters)').isLength({ min: 6 }),
+    check('screenName', 'Screen Name is Required').not().isEmpty()
 ], async (req, res) => {
     const errors = validationResult(req)
 
@@ -19,7 +20,7 @@ router.post('/', [
         return res.status(400).json({ errors: errors.array() })
     }
 
-    const { name, email, password } = req.body
+    const { name, email, password, screenName } = req.body
 
     try {
         let user = await User.findOne({ email })
@@ -36,7 +37,7 @@ router.post('/', [
         })
 
         user = new User({
-            name, email, avatar, password
+            name, email, avatar, password, screenName
         })
 
         const salt = await bcrypt.genSalt(10)
