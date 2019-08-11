@@ -9,8 +9,7 @@ class TeamPage extends Component {
     }
 
     componentDidMount = async () => {
-        const res = await axios.get('/api/test')
-        this.setState({ data: res.data.message })
+        
     }
 
     render() {

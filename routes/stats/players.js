@@ -16,10 +16,17 @@ router.get('/allPlayers', async (req, res) => {
 // @access  Public
 router.get('/search/:term', async (req, res) => {
 
-  let relatedPlayers = await nba.get(`/players/lastName/${ req.params.term }`)
+  let relatedPlayersLastName = await nba.get(`/players/lastName/${ req.params.term }`)
+  relatedPlayersLastName = relatedPlayersLastName.data.api.players
+  
+  let relatedPlayersFirstName = await nba.get(`/players/firstName/${ req.params.term }`)
+  relatedPlayersFirstName = relatedPlayersFirstName.data.api.players
+  
+  const merged = [...relatedPlayersLastName, ...relatedPlayersFirstName]
+    .filter(player => player.teamId !== null && player.leagues.standard && player.country > '')
+  console.log(merged)
 
-  relatedPlayers = relatedPlayers.data.api.players
-  res.send({ relatedPlayers })
+  res.send({ relatedPlayers: merged  })
 })
 
 module.exports = router;

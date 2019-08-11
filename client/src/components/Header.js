@@ -40,7 +40,7 @@ class Header extends Component {
                     </div>
                 </div>
                 <Link className="item" to="/playerSearch">
-                    Search By Last Name
+                    Search Players
                 </Link>
                 <a className="item" href={ githubCodeUrl }>
                     Source Code!

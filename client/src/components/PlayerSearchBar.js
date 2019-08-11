@@ -83,7 +83,7 @@ class PlayerSearchBar extends Component {
                 <div className="ui segment">
                     <form onSubmit={ e => this.onFormSubmit(e) } className="ui form">
                         <div className="field">
-                            <label>Player Search by Last Name</label>
+                            <label>Player Search by Name</label>
                             <input 
                                 type="text"
                                 value={ this.state.term }
