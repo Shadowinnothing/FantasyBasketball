@@ -9,7 +9,8 @@ const githubCodeUrl = 'https://github.com/Shadowinnothing/FantasyBasketball'
 class Header extends Component {
 
     state = {
-        teamNames: []
+        teamNames: [],
+        loggedIn: false
     }
 
     componentDidMount = () => {
@@ -44,6 +45,9 @@ class Header extends Component {
                 <a className="item" href={ githubCodeUrl }>
                     Source Code!
                 </a>
+                <Link className="item align right" to="/auth/google">
+                    { this.state.loggedIn ? 'Profile' : 'Login' }
+                </Link>
             </div>
         )
     }

@@ -1,15 +1,10 @@
 const express = require('express')
-const mongoose = require('mongoose')
-const passport = require('passport')
 const bodyParser = require('body-parser')
 const date = require('date-and-time')
-const axios = require('axios')
 const path = require('path')
 
-// Routes
-const test = require('./routes/api/test')
-const games = require('./routes/stats/games')
-const players = require('./routes/stats/players')
+// Connect to the DB
+require('./config/db')()
 
 // Initialize application
 const app = express()
@@ -21,19 +16,12 @@ app.use(bodyParser.json())
 // React Middleware
 app.use(express.static(path.join(__dirname, '/client/build')))
 
-// Passport Middleware
-app.use(passport.initialize())
-
-// GET THIS SHIT DONE WHEN YOU SET UP DEV ENV
-// Passport Config
-//require('./config/passport')(passport)
-
 // use routes
-app.use('/api/test', test)
-app.use('/stats/games', games)
-app.use('/stats/players', players)
+app.use('/api/auth', require('./routes/api/auth'))
+app.use('/api/users', require('./routes/api/users'))
+app.use('/stats/players', require('./routes/stats/players'))
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
-    console.log(`[${date.format(new Date(), 'hh:mm:ss')}] Server running on port: ${PORT}`)
+    console.log(`[${date.format(new Date(), 'hh:mm:ss')}] Node.js Server running on port: ${PORT}`)
 })
