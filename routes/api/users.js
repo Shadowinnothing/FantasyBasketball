@@ -4,7 +4,7 @@ const gravatar = require('gravatar')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
-const User = require('../../models/user')
+const User = require('../../models/User')
 const { jwtSecret } = require('../../config/keys')
 
 // @route   POST /api/users/
