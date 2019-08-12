@@ -7,7 +7,7 @@ const auth = require('../../middleware/auth')
 const { jwtSecret } = require('../../config/keys')
 
 // @route   GET /api/auth/
-// @desc    Get Authed User
+// @desc    Returned currentely authenticated user
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
