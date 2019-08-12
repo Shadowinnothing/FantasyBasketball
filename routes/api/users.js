@@ -14,7 +14,7 @@ router.post('/', [
     check('name', 'Name is Required').not().isEmpty(),
     check('email', 'Email is Required').isEmail(),
     check('password', 'Password is Required (Minimum 6 Characters)').isLength({ min: 6 }),
-    check('screenName', 'Screen Name is Required').not().isEmpty()
+    //check('screenName', 'Screen Name is Required').not().isEmpty()
 ], async (req, res) => {
     const errors = validationResult(req)
 

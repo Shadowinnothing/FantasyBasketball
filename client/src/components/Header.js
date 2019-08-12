@@ -45,7 +45,7 @@ class Header extends Component {
                 <a className="item" href={ githubCodeUrl }>
                     Source Code!
                 </a>
-                <Link className="item align right" to="/auth/google">
+                <Link className="item align right" to="/register">
                     { this.state.loggedIn ? 'Profile' : 'Login' }
                 </Link>
             </div>
