@@ -3,10 +3,7 @@ import { connect } from 'react-redux'
 
 import PlayerCard from './PlayerCard'
 
-//import nba from '../apis/nba'
 import axios from 'axios'
-
-import { getAllNBATeams, getAllNBAPlayers } from '../redux/actions'
 
 class PlayerSearchBar extends Component {
 
@@ -17,23 +14,10 @@ class PlayerSearchBar extends Component {
         tempPlayers: []
     }
 
-    componentDidMount = () => {
-        this.props.getAllNBATeams()
-        this.props.getAllNBAPlayers()
-        //this.setPlayers()
-    }
-
     getTeamName = _teamId => {
         const player = this.props.NBATeams.find(el => el.teamId === parseInt(_teamId))
         return typeof player.name === 'string' ? player.name : 'TEAM NAME NOT FOUND'
     }
-
-    // setPlayers = () => {
-    //     this.props.NBAPlayers.then(res => {
-    //         if(res)
-    //             this.setState({ tempPlayers: res.allNBAPlayers.data.players })
-    //     })
-    // }
 
     onSubmit = async term => {
         const res = await axios.get(`/stats/players/search/${term}`)
@@ -110,4 +94,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { getAllNBATeams, getAllNBAPlayers })(PlayerSearchBar)
+export default connect(mapStateToProps, {})(PlayerSearchBar)

@@ -1,11 +1,15 @@
-import axios from 'axios'
+import { GET_ALL_NBA_PLAYERS } from '../actions/types'
 
-const PlayerReducer = async (state = {}, action) => {
+const INITIAL_STATE = {
+    NBAPlayers: []
+}
+
+const PlayerReducer = (state = INITIAL_STATE, action) => {
     switch(action.type){
-        case 'GET_ALL_NBA_PLAYERS':
+        case GET_ALL_NBA_PLAYERS:
             return {
                 ...state,
-                allNBAPlayers: await axios.get('/stats/players/allPlayers')
+                NBAPlayers: action.payload
             }
         default:
             return state

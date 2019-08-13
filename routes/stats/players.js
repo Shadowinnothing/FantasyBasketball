@@ -8,7 +8,7 @@ router.get('/allPlayers', async (req, res) => {
   let allPlayers = await nba.get('/players/league/standard')
   // filter out players not on a roster
   allPlayers = allPlayers.data.api.players.filter(player => player.teamId !== null)
-  res.json({ players: allPlayers })
+  res.send({ players: allPlayers })
 })
 
 // @route   GET /stats/players/search/:term

@@ -3,7 +3,8 @@ import {
     REGISTER_SUCCESS,
     REGISTER_FAIL,
     USER_LOADED,
-    AUTH_ERROR
+    AUTH_ERROR,
+    GET_ALL_NBA_PLAYERS
 } from '../actions/types' 
 
 import setAuthToken from '../../utils/setAuthToken'
@@ -14,8 +15,14 @@ export const getAllNBATeams = () => dispatch => {
 }
 
 // Player Reducer Actions
-export const getAllNBAPlayers = () => dispatch => {
-    dispatch({ type: 'GET_ALL_NBA_PLAYERS' })
+export const getAllNBAPlayers = () => async dispatch => {
+    try {
+        const allPlayers = await axios.get('/stats/players/allPlayers')
+        console.log(allPlayers.data.players)
+        dispatch({ type: GET_ALL_NBA_PLAYERS, payload: allPlayers.data.players })
+    } catch(err) {
+        return err
+    }
 }
 
 // Load a user

@@ -22,6 +22,7 @@
     "date-and-time": "^0.6.3",
     "express": "^4.16.4",
     "express-validator": "^6.1.1",
+    "formik": "^1.5.8",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.5.1",

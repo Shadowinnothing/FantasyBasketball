@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { loadUser } from './redux/actions/index'
+import { loadUser, getAllNBAPlayers, getAllNBATeams } from './redux/actions/index'
 import setAuthToken from './utils/setAuthToken';
 
 import Header from './components/Header'
@@ -20,6 +20,8 @@ class App extends Component {
 
   componentDidMount = () => {
     this.props.loadUser()
+    this.props.getAllNBAPlayers()
+    this.props.getAllNBATeams()
   }
 
   render = () => {
@@ -36,4 +38,4 @@ class App extends Component {
   }
 }
 
-export default connect(null, { loadUser })(App)
+export default connect(null, { loadUser, getAllNBAPlayers, getAllNBATeams })(App)
