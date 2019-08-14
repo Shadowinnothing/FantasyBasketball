@@ -30,7 +30,7 @@ class App extends Component {
         <Header />
         <Route exact path='/' component={ ModeSelector } />
         <Route path="/playerSearch" component={ PlayerSearchBar }/>
-        <Route path="/teams/:teamName" component={ TeamPage } />
+        <Route path="/teams/:teamId/:teamName" component={ TeamPage } />
         <Route path="/register" component={ Register } />
         <Route path="/login" component={ Login } />
       </BrowserRouter>

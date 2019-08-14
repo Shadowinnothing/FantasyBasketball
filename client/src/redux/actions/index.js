@@ -4,21 +4,26 @@ import {
     REGISTER_FAIL,
     USER_LOADED,
     AUTH_ERROR,
-    GET_ALL_NBA_PLAYERS
+    GET_ALL_NBA_TEAMS,
+    GET_ALL_NBA_PLAYERS,
+    GET_NBA_TEAM
 } from '../actions/types' 
 
 import setAuthToken from '../../utils/setAuthToken'
 
 // Team Reducer Actions
 export const getAllNBATeams = () => dispatch => {
-    dispatch({ type: 'GET_ALL_NBA_TEAMS' })
+    dispatch({ type: GET_ALL_NBA_TEAMS })
+}
+
+export const getNBATeam = teamName => dispatch => {
+    dispatch({ type: GET_NBA_TEAM, payload: teamName })
 }
 
 // Player Reducer Actions
 export const getAllNBAPlayers = () => async dispatch => {
     try {
         const allPlayers = await axios.get('/stats/players/allPlayers')
-        console.log(allPlayers.data.players)
         dispatch({ type: GET_ALL_NBA_PLAYERS, payload: allPlayers.data.players })
     } catch(err) {
         return err

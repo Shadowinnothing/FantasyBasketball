@@ -1,3 +1,5 @@
+import { GET_ALL_NBA_TEAMS, GET_NBA_TEAM } from '../actions/types'
+
 const teamNames = [
     { teamId: 1, name: "Atlanta Hawks" },
     { teamId: 2, name: "Boston Celtics" },
@@ -33,8 +35,11 @@ const teamNames = [
 
 const TeamReducer = (state = {}, action) => {
     switch(action.type){
-        case 'GET_ALL_NBA_TEAMS':
+        case GET_ALL_NBA_TEAMS:
             return { ...state, allNBATeams: teamNames }
+        case GET_NBA_TEAM:
+            const team = teamNames.filter(({ name }) => name === action.payload)
+            return { ...state, team: team[0] }
         default:
             return state
     }

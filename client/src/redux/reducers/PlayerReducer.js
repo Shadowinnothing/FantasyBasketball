@@ -1,7 +1,7 @@
 import { GET_ALL_NBA_PLAYERS } from '../actions/types'
 
 const INITIAL_STATE = {
-    NBAPlayers: []
+    allPlayers: []
 }
 
 const PlayerReducer = (state = INITIAL_STATE, action) => {
@@ -9,7 +9,7 @@ const PlayerReducer = (state = INITIAL_STATE, action) => {
         case GET_ALL_NBA_PLAYERS:
             return {
                 ...state,
-                NBAPlayers: action.payload
+                allPlayers: action.payload
             }
         default:
             return state

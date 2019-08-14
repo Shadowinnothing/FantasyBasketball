@@ -20,6 +20,7 @@ app.use(express.static(path.join(__dirname, '/client/build')))
 app.use('/api/auth', require('./routes/api/auth'))
 app.use('/api/users', require('./routes/api/users'))
 app.use('/stats/players', require('./routes/stats/players'))
+app.use('/stats/teams', require('./routes/stats/teams'))
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {

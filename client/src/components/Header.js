@@ -24,7 +24,7 @@ class Header extends Component {
 
     // Returns array of Link tagged Team names
     // Takes the user to /teams/{team_Name} 
-    renderTeams = () => this.state.teamNames.map(({ name, teamId }) => <Link className="item" key={ teamId } to={`/teams/${ name.replace(/\s/g, "_") }`} >{ name }</Link>)
+    renderTeams = () => this.state.teamNames.map(({ name, teamId }) => <Link className="item" key={ teamId } to={`/teams/${teamId}/${ name.replace(/\s/g, "_") }`} >{ name }</Link>)
 
     render() {
         return (
