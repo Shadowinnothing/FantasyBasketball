@@ -2,6 +2,8 @@ import axios from 'axios'
 import { 
     REGISTER_SUCCESS,
     REGISTER_FAIL,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
     USER_LOADED,
     AUTH_ERROR,
     GET_ALL_NBA_TEAMS,
@@ -59,11 +61,34 @@ export const register = ({ name, email, password }) => async dispatch => {
     try {
         const res = await axios.post('/api/users', body, config)
         dispatch({ type: REGISTER_SUCCESS, payload: res.data })
+        dispatch(loadUser())
     } catch(err) {
         const errors = err.response.data.errors
         if(errors){
             console.log( errors.forEach(error => error.msg) )
         }
         dispatch({ type: REGISTER_FAIL })
+    }
+}
+
+// Login a user
+export const login = (email, password ) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    const body = JSON.stringify({ email, password })
+
+    try {
+        const res = await axios.post('/api/auth', body, config)
+        dispatch({ type: LOGIN_SUCCESS, payload: res.data })
+        dispatch(loadUser())
+    } catch(err) {
+        const errors = err.response.data.errors
+        if(errors){
+            console.log( errors.forEach(error => error.msg) )
+        }
+        dispatch({ type: LOGIN_FAIL })
     }
 }

@@ -46,6 +46,9 @@ class Header extends Component {
                     Source Code!
                 </a>
                 <Link className="item align right" to="/register">
+                    { this.state.loggedIn ? 'Profile' : 'Register' }
+                </Link>
+                <Link className="item align right" to="/login">
                     { this.state.loggedIn ? 'Profile' : 'Login' }
                 </Link>
             </div>
