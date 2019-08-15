@@ -8,7 +8,8 @@ import {
     AUTH_ERROR,
     GET_ALL_NBA_TEAMS,
     GET_ALL_NBA_PLAYERS,
-    GET_NBA_TEAM
+    GET_NBA_TEAM,
+    LOGOUT
 } from '../actions/types' 
 
 import setAuthToken from '../../utils/setAuthToken'
@@ -91,4 +92,9 @@ export const login = (email, password ) => async dispatch => {
         }
         dispatch({ type: LOGIN_FAIL })
     }
+}
+
+// Logout
+export const logout = () => async dispatch => {
+    dispatch({ type: LOGOUT })
 }

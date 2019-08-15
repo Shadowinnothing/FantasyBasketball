@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { getAllNBATeams } from '../redux/actions'
+import { getAllNBATeams, logout } from '../redux/actions'
 
 const githubCodeUrl = 'https://github.com/Shadowinnothing/FantasyBasketball'
 
@@ -10,7 +10,7 @@ class Header extends Component {
 
     state = {
         teamNames: [],
-        loggedIn: false
+        isAuthenticated: false
     }
 
     componentDidMount = () => {
@@ -20,6 +20,10 @@ class Header extends Component {
     componentDidUpdate = (prevProps) => {
         if(this.props !== prevProps)
             this.setState({ teamNames: this.props.NBATeams })
+    }
+
+    logout = () => {
+        this.props.logout()
     }
 
     // Returns array of Link tagged Team names
@@ -48,9 +52,12 @@ class Header extends Component {
                 <Link className="item align right" to="/register">
                     { this.state.loggedIn ? 'Profile' : 'Register' }
                 </Link>
-                <Link className="item align right" to="/login">
-                    { this.state.loggedIn ? 'Profile' : 'Login' }
+                <Link className="item" to="/login">
+                    { this.state.isAuthenticated ? 'Logout' : 'Login' }
                 </Link>
+                <button onClick={ this.logout }>
+                    Logout
+                </button>
             </div>
         )
     }
@@ -62,4 +69,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { getAllNBATeams })(Header)
+export default connect(mapStateToProps, { getAllNBATeams, logout })(Header)
