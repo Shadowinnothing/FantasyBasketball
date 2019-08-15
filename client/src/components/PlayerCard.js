@@ -3,7 +3,6 @@ import React from 'react'
 import StyledPlayerCard from '../styles/PlayerCard_style'
 
 const PlayerCard = props => {
-
     const { player } = props
 
     if(player.leagues.standard) {

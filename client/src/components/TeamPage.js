@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import { getNBATeam } from '../redux/actions'
 
+import PlayerCard from './PlayerCard'
+
 class TeamPage extends Component {
 
     state = {
@@ -10,8 +12,7 @@ class TeamPage extends Component {
         teamId: null
     }
 
-    componentDidMount = async () => {
-
+    componentDidMount = () => {
         this.setState({ 
             teamName: this.props.match.params.teamName.replace('_', ' '),
             teamId: this.props.match.params.teamId
@@ -27,11 +28,24 @@ class TeamPage extends Component {
         }
     }
 
+    mapPlayers = () => {
+        return this.props.NBAPlayers.map(player => {
+            if(player.teamId === this.state.teamId) {
+                player.teamName = this.state.teamName
+                return <PlayerCard key={player.playerId} player={player} />
+            }
+            return null
+        })
+    }
+
     render() {
         return (
             <div>
                 <h1>Team Name: { this.state.teamName }</h1>
                 <h3>Team ID:   { this.state.teamId }</h3>
+                <div className="ui cards" >
+                    { this.props.NBATeams ? this.mapPlayers() : 'Loading Players...' }
+                </div>
             </div>
         )
     }
@@ -40,7 +54,8 @@ class TeamPage extends Component {
 const mapStateToProps = state => {
     return {
         NBATeams: state.NBATeams.allNBATeams,
-        team: state.NBATeams.team
+        team: state.NBATeams.team,
+        NBAPlayers: state.NBAPlayers.allPlayers
     }
 }
 
