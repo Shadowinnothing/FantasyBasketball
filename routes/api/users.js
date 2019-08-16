@@ -13,8 +13,8 @@ const { jwtSecret } = require('../../config/keys')
 router.post('/', [
     check('name', 'Name is Required').not().isEmpty(),
     check('email', 'Email is Required').isEmail(),
-    check('password', 'Password is Required (Minimum 6 Characters)').isLength({ min: 6 }),
-    //check('screenName', 'Screen Name is Required').not().isEmpty()
+    check('password', 'Password is Required (Minimum 6 Characters)').isLength({ min: 6, max: 30 }),
+    check('screenName', 'ScreenName is Required (Minumum 6 Characters').isLength({ min: 6, max: 30 })
 ], async (req, res) => {
     const errors = validationResult(req)
 
