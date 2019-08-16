@@ -28,7 +28,9 @@ const StyledText = styled.p`
 class Header extends Component {
 
     state = {
-        teamNames: []
+        teamNames: [],
+        loaded: false,
+        gravatarEmail: ''
     }
 
     componentDidMount = () => {
@@ -36,8 +38,14 @@ class Header extends Component {
     }
 
     componentDidUpdate = (prevProps) => {
-        if(this.props !== prevProps)
-            this.setState({ teamNames: this.props.NBATeams })
+        if(this.props !== prevProps) {
+            console.log(this.props.userAvatar.substr(2))
+            this.setState({
+                gravatarEmail: this.props.userAvatar.substr(2),
+                loaded: true,
+                teamNames: this.props.NBATeams
+            })
+        }
     }
 
     logout = () => {
@@ -55,59 +63,67 @@ class Header extends Component {
     renderTeams = () => this.state.teamNames.map(({ name, teamId }) => <Link className="item" key={ teamId } to={`/teams/${teamId}/${ name.replace(/\s/g, "_") }`} >{ name }</Link>)
 
     render() {
-        return (
-            <div>
-                <div className="ui menu">
+        if(this.state.loaded)
+            return (
+                <div>
+                    <div className="ui menu">
 
-                    <StyledMenuBar onClick={ () => console.log('home clicked')} className="ui simple dropdown item">
-                        Menu
-                        <div className="menu">
-                            { this.wrapLink('/', 'Home') }
-                            { this.wrapLink('/yeet', 'YEET') }
-                        </div>
-                    </StyledMenuBar>
+                        <StyledMenuBar onClick={ () => console.log('home clicked')} className="ui simple dropdown item">
+                            <img alt="yeet" src={ 'https://' + this.state.gravatarEmail } />
+                            Menu
+                            <div className="menu">
+                                { this.wrapLink('/', 'Home') }
+                                { this.wrapLink('/yeet', 'YEET') }
+                            </div>
+                        </StyledMenuBar>
 
-                    <div className="ui simple dropdown item">
-                        Teams
-                        <i className="dropdown icon"></i>
-                        <div className="menu">
-                            { this.state.teamNames ? this.renderTeams() : 'error grabbing teams' }
+                        <div className="ui simple dropdown item">
+                            Teams
+                            <i className="dropdown icon"></i>
+                            <div className="menu">
+                                { this.state.teamNames ? this.renderTeams() : 'error grabbing teams' }
+                            </div>
                         </div>
+
+                        <Link className="item" to="/playerSearch">
+                            Search Players
+                        </Link>
+
+                        <a className="item" href={ githubCodeUrl }>
+                            Source Code!
+                        </a>
+
+                        <Link className="item align right" to="/register">
+                            { this.state.loggedIn ? 'Profile' : 'Register' }
+                        </Link>
+
+                        <Link className="item" to="/login">
+                            { this.state.isAuthenticated ? 'Logout' : 'Login' }
+                        </Link>
+
+                        <button onClick={ this.logout }>
+                            Logout
+                        </button>
+
                     </div>
 
-                    <Link className="item" to="/playerSearch">
-                        Search Players
-                    </Link>
-
-                    <a className="item" href={ githubCodeUrl }>
-                        Source Code!
-                    </a>
-
-                    <Link className="item align right" to="/register">
-                        { this.state.loggedIn ? 'Profile' : 'Register' }
-                    </Link>
-
-                    <Link className="item" to="/login">
-                        { this.state.isAuthenticated ? 'Logout' : 'Login' }
-                    </Link>
-                    <button onClick={ this.logout }>
-                        Logout
-                    </button>
+                    <div>
+                        { this.props.isAuthenticated ? <UserNavBar /> : null }
+                    </div>
                 </div>
-
-                <div>
-                    { this.props.isAuthenticated ? <UserNavBar /> : null }
-                </div>
-            </div>
-        )
+            )
+        return (<div>Loading...</div>)
     }
 }
 
 const mapStateToProps = state => {
+    const userAvatar = state.Auth.user ? state.Auth.user.avatar : ''
     return {
         NBATeams: state.NBATeams.allNBATeams,   // <- all NBA Teams
-        isAuthenticated : state.Auth.isAuthenticated
+        isAuthenticated : state.Auth.isAuthenticated,
+        userAvatar
     }
+
 }
 
 export default connect(mapStateToProps, { getAllNBATeams, logout })(Header)
