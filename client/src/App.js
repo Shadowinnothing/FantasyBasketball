@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { loadUser, getAllNBAPlayers, getAllNBATeams } from './redux/actions/index'
 import setAuthToken from './utils/setAuthToken';
 
+import CreateLeaguePage from './components/CreateLeaguePage'
 import Header from './components/Header'
 import Login from './components/auth/Login'
 import ModeSelector from './components/ModeSelector'
@@ -33,6 +34,7 @@ class App extends Component {
         <Route path="/teams/:teamId/:teamName" component={ TeamPage } />
         <Route path="/register" component={ Register } />
         <Route path="/login" component={ Login } />
+        <Route path="/createLeague" component={ CreateLeaguePage } />
       </BrowserRouter>
     )
   }

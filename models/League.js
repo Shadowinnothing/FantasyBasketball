@@ -2,9 +2,28 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-// Create User Schema
+// Parameters of the League Schema:
+    // leagueName
+        // Name of the league ex. Nikola Jokic 2020 MVP Hypetrain
+    // leagueType
+        // The style of league this is either daily fantasy, standard mode, dynasty mode
+    // leagueCreationDate
+        // Date the league was created
+    // leagueManagers
+        // Array of teamId's of users able to edit the league settings
+    // league settings
+        // Model of settings for a league. Scoring, draftDate, draftOrder, etc.
+    // leagueNote
+        // Note posted on leaguePage ex. Date of draft, keepers, etc.
+    // teamOwners
+        // Array of userId's that are eligable to create/edit a team for the given league    
+
 const LeagueSchema = new Schema({
     leagueName: {
+        type: String,
+        required: true
+    },
+    leagueType: {
         type: String,
         required: true
     },
@@ -12,14 +31,18 @@ const LeagueSchema = new Schema({
         type: Date,
         default: Date.now()
     },
+    leagueManagers: {
+        type: [ Number ],
+        required: true
+    },
     leagueSetting: {
-        type: String // <- For sure the WRONG type, ganna investigate this
+        type: String
     },
     leagueNote: {
-        type: String // <- note posted on league page from league admin
+        type: String
     },
-    teams: {
-        type: [ Number ] // <- teamIds
+    teamOwners: {
+        type: [ Number ]
     }
 })
 
