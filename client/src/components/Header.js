@@ -15,9 +15,12 @@ const StyledMenuBar = styled.div`
     width: 200px;
 `
 
+const StyledGravatarImage = styled.img`
+`
+
 // Link tags that are each item in the menu
 const StyledLink = styled.div`
-    
+
 `
 
 // Text inside the Link tag
@@ -30,7 +33,8 @@ class Header extends Component {
     state = {
         teamNames: [],
         loaded: false,
-        gravatarEmail: ''
+        gravatarEmail: '',
+        screenName: ''
     }
 
     componentDidMount = () => {
@@ -39,11 +43,11 @@ class Header extends Component {
 
     componentDidUpdate = (prevProps) => {
         if(this.props !== prevProps) {
-            console.log(this.props.userAvatar.substr(2))
             this.setState({
                 gravatarEmail: this.props.userAvatar.substr(2),
                 loaded: true,
-                teamNames: this.props.NBATeams
+                teamNames: this.props.NBATeams,
+                screenName: this.props.userScreenName
             })
         }
     }
@@ -69,8 +73,8 @@ class Header extends Component {
                     <div className="ui menu">
 
                         <StyledMenuBar onClick={ () => console.log('home clicked')} className="ui simple dropdown item">
-                            <img alt="yeet" src={ 'https://' + this.state.gravatarEmail } />
-                            Menu
+                            <StyledGravatarImage alt="yeet" src={ 'https://' + this.state.gravatarEmail } />
+                            { this.props.userScreenName }
                             <div className="menu">
                                 { this.wrapLink('/', 'Home') }
                                 { this.wrapLink('/yeet', 'YEET') }
@@ -118,12 +122,13 @@ class Header extends Component {
 
 const mapStateToProps = state => {
     const userAvatar = state.Auth.user ? state.Auth.user.avatar : ''
+    const userScreenName = state.Auth.user ? state.Auth.user.screenName : ''
     return {
         NBATeams: state.NBATeams.allNBATeams,   // <- all NBA Teams
         isAuthenticated : state.Auth.isAuthenticated,
-        userAvatar
+        userAvatar,
+        userScreenName 
     }
-
 }
 
 export default connect(mapStateToProps, { getAllNBATeams, logout })(Header)
