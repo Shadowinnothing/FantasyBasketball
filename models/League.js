@@ -11,6 +11,7 @@ const Schema = mongoose.Schema
         // Date the league was created
     // leagueManagers
         // Array of teamId's of users able to edit the league settings
+        // INITIAL CREATION OF THIS WILL BE A SINGLE USER ID PLACED IN AN ARRAY
     // league settings
         // Model of settings for a league. Scoring, draftDate, draftOrder, etc.
     // leagueNote

@@ -16,7 +16,6 @@ class CreateLeaguePage extends Component {
 
 const mapStateToProps = state => {
     return {
-        ...state,
         isAuthenticated: state.Auth.isAuthenticated,
     }
 }
