@@ -2,6 +2,7 @@ const router = require('express').Router()
 const { check, validationResult } = require('express-validator')
 
 const auth = require( '../../middleware/auth')
+const leagueAuth = require('../../middleware/leagueAuth')
 //const nba = require('../../apis/nba')
 
 const League = require('../../models/League')
@@ -34,18 +35,44 @@ router.post('/create', [
     res.send({ league })
 })
 
-// @route   POST /api/league/test
-// @desc    testing stuff
+// @route   POST /api/league/update
+// @desc    Update a league with new settings
 // @access  Private
-router.post('/test', auth, (req, res) => {
+router.post('/update', auth, async (req, res) => {
 
-  // grab a user with the JWT and grab their userId
-  // use this to save userId into mongoose
+  const { user } = req
+  const { leagueId, leagueName, leagueType } = req.body
+  const userId = user.id
 
-  console.log(typeof req.user.id)
-  //console.log( JSON.stringify(req, undefined, 2) )
+  let leagueToUpdate = null
 
-  res.send({ request: 'yeet' })
+  if(!leagueId){
+    return res.send({ error: 'Need a leagueId to update' })
+  }
+
+  try {
+    leagueToUpdate = await leagueAuth(leagueId, userId)
+
+    if(leagueToUpdate.errors){
+      return res.send(leagueToUpdate.error)
+    }
+
+    if(leagueName){
+      leagueToUpdate.leagueName = leagueName
+    }
+
+    // I don't think this should be editable, keeping it for now
+    // until the LeagueSettings modal is wired up
+    if(leagueType){
+      leagueToUpdate.leagueType = leagueType
+    }
+
+    await leagueToUpdate.save()
+
+    return res.send(leagueToUpdate)
+  } catch(err) {
+    return res.send({ err })
+  }
 })
 
 module.exports = router;
