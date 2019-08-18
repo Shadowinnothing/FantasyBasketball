@@ -5,7 +5,7 @@ const { jwtSecret } = require('../config/keys')
 
 module.exports = (req, res, next) => {
     // get token from header
-    const token = req.header('x-auth-token')
+    const token = req.header('authtoken')
 
     // check if token exists
     if(!token)

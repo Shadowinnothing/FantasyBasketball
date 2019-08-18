@@ -33,7 +33,7 @@ const LeagueSchema = new Schema({
         default: Date.now()
     },
     leagueManagers: {
-        type: [ Number ],
+        type: [ String ],
         required: true
     },
     leagueSetting: {
