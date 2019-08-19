@@ -12,7 +12,7 @@ const User = require('../../models/User')
 router.get('/getAllUserTeams', auth, async (req, res) => {
 
   const userId = req.user.id
-  
+
   try {
     const user = await User.findOne({ _id: userId })
 
@@ -20,7 +20,7 @@ router.get('/getAllUserTeams', auth, async (req, res) => {
 
     res.send({ allTeams })
   } catch(err) {
-    res.send({ err, msg: 'why isn\' this working' })
+    res.send({ err })
   }
 })
 
