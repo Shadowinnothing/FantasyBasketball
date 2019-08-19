@@ -4,8 +4,8 @@ const League = require('../models/League')
 // userId - user making changes
 module.exports = async (leagueId, userId) => {
     // check if leagueId exists
-    let leagueToUpdate = await League.findOne({ _id: leagueId })
-
+    let leagueToUpdate = await League.findOne({ _id: leagueId }) || null
+    
     if(!leagueToUpdate){
         return { error: 'League does not exist' }
     }

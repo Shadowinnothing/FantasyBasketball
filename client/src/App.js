@@ -7,6 +7,8 @@ import setAuthToken from './utils/setAuthToken';
 
 import CreateLeaguePage from './components/CreateLeaguePage'
 import Header from './components/Header'
+import Home from './components/Home'
+import LeaguesPage from './components/LeaguesPage'
 import Login from './components/auth/Login'
 import ModeSelector from './components/ModeSelector'
 import PlayerSearchBar from './components/PlayerSearchBar'
@@ -29,12 +31,13 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Header />
-        <Route exact path='/' component={ ModeSelector } />
+        <Route exact path='/' component={ Home } />
         <Route path="/playerSearch" component={ PlayerSearchBar }/>
         <Route path="/teams/:teamId/:teamName" component={ TeamPage } />
         <Route path="/register" component={ Register } />
         <Route path="/login" component={ Login } />
         <Route path="/createLeague" component={ CreateLeaguePage } />
+        <Route path="/leagues" component={ LeaguesPage } />
       </BrowserRouter>
     )
   }

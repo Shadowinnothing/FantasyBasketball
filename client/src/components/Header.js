@@ -77,7 +77,8 @@ class Header extends Component {
                             { this.props.userScreenName }
                             <div className="menu">
                                 { this.wrapLink('/', 'Home') }
-                                { this.wrapLink('/createLeague', 'Create League') }
+                                { this.wrapLink('/leagues', 'Leagues') }
+                                { this.wrapLink('/social', 'Friends') }
                             </div>
                         </StyledMenuBar>
 

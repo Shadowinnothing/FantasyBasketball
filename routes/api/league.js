@@ -3,7 +3,6 @@ const { check, validationResult } = require('express-validator')
 
 const auth = require( '../../middleware/auth')
 const leagueAuth = require('../../middleware/leagueAuth')
-//const nba = require('../../apis/nba')
 
 const League = require('../../models/League')
 
@@ -73,6 +72,25 @@ router.post('/update', auth, async (req, res) => {
   } catch(err) {
     return res.send({ err })
   }
+})
+
+// @route   DELETE /api/league/
+// @desc    Delete a league
+// @access  Private
+router.delete('/', auth, async (req, res) => {
+  
+  const { leagueId } = req.body
+  const { user } = req
+  const userId = user.id
+
+  if(!leagueId){
+    return res.send({ error: 'Need a leagueId to update' })
+  }
+
+  let leagueToDelete = await leagueAuth(leagueId, userId)
+  console.log(leagueToDelete)
+
+  res.send({ msg: `League ${leagueId} has been deleted` })
 })
 
 module.exports = router;

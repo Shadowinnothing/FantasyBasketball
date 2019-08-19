@@ -28,7 +28,7 @@ const UserSchema = new Schema({
         type: String
     },
     teams: {
-        type: [ Number ] // links to teamId
+        type: [ String ] // links to teamId
     }
 })
 
