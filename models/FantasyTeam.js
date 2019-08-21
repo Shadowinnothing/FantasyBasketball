@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // Create User Schema
-const TeamSchema = new Schema({
+const FantasyTeamSchema = new Schema({
     teamName: {
         type: String,
         required: true
@@ -17,4 +17,4 @@ const TeamSchema = new Schema({
     }
 })
 
-module.exports = Team = mongoose.model('teams', TeamSchema)
+module.exports = Team = mongoose.model('teams', FantasyTeamSchema)

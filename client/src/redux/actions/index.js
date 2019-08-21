@@ -9,7 +9,10 @@ import {
     GET_ALL_NBA_TEAMS,
     GET_ALL_NBA_PLAYERS,
     GET_NBA_TEAM,
-    LOGOUT
+    LOGOUT,
+    CREATE_NEW_LEAGUE,
+    CLEAR_LEAGUES,
+    LOAD_USERS_LEAGUES
 } from '../actions/types' 
 
 import setAuthToken from '../../utils/setAuthToken'
@@ -97,4 +100,43 @@ export const login = (email, password ) => async dispatch => {
 // Logout
 export const logout = () => async dispatch => {
     dispatch({ type: LOGOUT })
+    dispatch({ type: CLEAR_LEAGUES })
+}
+
+// Create a brand new fantasy basketball league
+export const createNewLeague = ({ leagueName, leagueType, userToken }) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'AuthToken': userToken
+        }
+    }
+    const postBody = { leagueName, leagueType }
+
+    try {
+        const newLeague = await axios.post('/api/league/create', postBody, config)
+        dispatch({ type: CREATE_NEW_LEAGUE, payload: newLeague })
+    } catch(err) {
+        return err
+    }
+}
+
+// Fill the users leagueReducer with all of their leagueIds upon login
+export const loadUsersLeagues = ({ userToken }) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'AuthToken': userToken
+        }
+    }
+
+    try {
+        const teams = await axios.get('/api/fantasyTeams/getAllUserTeams', null,  config)
+        const _teams = teams
+        console.log(_teams)
+        dispatch({ type: LOAD_USERS_LEAGUES, payload: _teams })
+    } catch(err) {
+        return err
+    }
+    
 }

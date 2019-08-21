@@ -11,3 +11,8 @@ export const LOGOUT = 'LOGOUT'
 export const GET_ALL_NBA_PLAYERS = 'GET_ALL_NBA_PLAYERS'
 export const GET_ALL_NBA_TEAMS = 'GET_ALL_NBA_TEAMS'
 export const GET_NBA_TEAM = 'GET_NBA_TEAM'
+
+// Fantasy Related
+export const CREATE_NEW_LEAGUE = 'CREATE_NEW_LEAGUE'
+export const CLEAR_LEAGUES = 'CLEAR_LEAGUES'
+export const LOAD_USERS_LEAGUES = 'LOAD_USERS_LEAGUES'

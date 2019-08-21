@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { loadUser, getAllNBAPlayers, getAllNBATeams } from './redux/actions/index'
+import { loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersLeagues } from './redux/actions/index'
 import setAuthToken from './utils/setAuthToken';
 
 import CreateLeaguePage from './components/CreateLeaguePage'
@@ -10,7 +10,6 @@ import Header from './components/Header'
 import Home from './components/Home'
 import LeaguesPage from './components/LeaguesPage'
 import Login from './components/auth/Login'
-import ModeSelector from './components/ModeSelector'
 import PlayerSearchBar from './components/PlayerSearchBar'
 import Register from './components/auth/Register'
 import TeamPage from './components/TeamPage'
@@ -25,6 +24,7 @@ class App extends Component {
     this.props.loadUser()
     this.props.getAllNBAPlayers()
     this.props.getAllNBATeams()
+    //this.props.loadUsersLeagues() // <- will be good to wire up when the Fantasy Team reducer is wired up
   }
 
   render = () => {
@@ -43,4 +43,4 @@ class App extends Component {
   }
 }
 
-export default connect(null, { loadUser, getAllNBAPlayers, getAllNBATeams })(App)
+export default connect(null, { loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersLeagues })(App)

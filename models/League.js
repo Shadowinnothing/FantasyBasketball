@@ -7,6 +7,7 @@ const Schema = mongoose.Schema
         // Name of the league ex. Nikola Jokic 2020 MVP Hypetrain
     // leagueType
         // The style of league this is either daily fantasy, standard mode, dynasty mode
+        // DAILY, STANDARD, DYNASTY
     // leagueCreationDate
         // Date the league was created
     // leagueManagers
@@ -43,7 +44,7 @@ const LeagueSchema = new Schema({
         type: String
     },
     teamOwners: {
-        type: [ Number ]
+        type: [ String ]
     }
 })
 

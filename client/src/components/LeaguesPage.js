@@ -79,6 +79,7 @@ class Leagues extends Component {
                                     { this.renderAllUserTeams() }
                                 </tbody>
                             </table>
+                            <Link to="/createLeague">Create New League</Link>
                         </div>
                     }
             </div>
