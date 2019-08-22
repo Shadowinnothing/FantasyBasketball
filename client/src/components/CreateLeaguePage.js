@@ -22,7 +22,7 @@ const CreateLeaguePage = ({ isAuthenticated, userAuth, createNewLeague }) => {
         createNewLeague({ leagueName, leagueType, userToken: userAuth.token })
     }
 
-    // Redirect if logged in
+    // Redirect if not logged in
     if(!isAuthenticated){
         return <Redirect to="/" />
     }

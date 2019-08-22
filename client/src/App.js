@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -18,29 +18,38 @@ if(localStorage.token){
   setAuthToken(localStorage.token)
 }
 
-class App extends Component {
+const App = ({ userToken, loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersLeagues }) => {
 
-  componentDidMount = () => {
-    this.props.loadUser()
-    this.props.getAllNBAPlayers()
-    this.props.getAllNBATeams()
-    //this.props.loadUsersLeagues() // <- will be good to wire up when the Fantasy Team reducer is wired up
-  }
+  // User, players, leagues, etc. load all the data related to the user
+  useEffect(() => {
+    loadUser()
+    getAllNBAPlayers()
+    getAllNBATeams()
+  }, [])
 
-  render = () => {
-    return (
-      <BrowserRouter>
-        <Header />
-        <Route exact path='/' component={ Home } />
-        <Route path="/playerSearch" component={ PlayerSearchBar }/>
-        <Route path="/teams/:teamId/:teamName" component={ TeamPage } />
-        <Route path="/register" component={ Register } />
-        <Route path="/login" component={ Login } />
-        <Route path="/createLeague" component={ CreateLeaguePage } />
-        <Route path="/leagues" component={ LeaguesPage } />
-      </BrowserRouter>
-    )
+  useEffect(() => {
+    if(typeof userToken === 'string' && userToken.length)
+      loadUsersLeagues(userToken)
+  }, [userToken])
+
+  return (
+    <BrowserRouter>
+      <Header />
+      <Route exact path='/' component={ Home } />
+      <Route path="/playerSearch" component={ PlayerSearchBar }/>
+      <Route path="/teams/:teamId/:teamName" component={ TeamPage } />
+      <Route path="/register" component={ Register } />
+      <Route path="/login" component={ Login } />
+      <Route path="/createLeague" component={ CreateLeaguePage } />
+      <Route path="/leagues" component={ LeaguesPage } />
+    </BrowserRouter>
+  )
+}
+
+const mapStateToProps = state => {
+  return {
+    userToken: state.Auth.token
   }
 }
 
-export default connect(null, { loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersLeagues })(App)
+export default connect(mapStateToProps, { loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersLeagues })(App)
