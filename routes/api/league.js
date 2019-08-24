@@ -93,18 +93,25 @@ router.delete('/', auth, async (req, res) => {
   res.send({ msg: `League ${leagueId} has been deleted` })
 })
 
-// @route   Get /api/league/getAllUserLeagues
+// @route   GET /api/league/getAllUserLeagues
 // @desc    Get all Fantasy Leagues associated with the user
 // @access  Private
 router.get('/getAllUserLeagues', auth, async (req, res) => {
 
   // grab all leagues from db and return the db;s
   let find = await League.find()
-  find = find.filter( f => f.leagueManagers.includes(req.user.id) )
-  const usersLeagues = find.map(f => f.id)
+  const usersLeagues = find.filter( f => f.leagueManagers.includes(req.user.id) )
 
   res.send({ usersLeagues })
 })
 
+// @route   GET /api/league/allLeagueData/:leagueId
+// @desc    Return all data relating to a single Fantasy League
+// @access  Private
+router.get('/allLeagueData/:leagueId', auth, async (req, res) => {
+  const id = req.params.leagueId
+  const leagueData = await League.find({ _id: id })
+  res.send({ leagueData })
+})
 
 module.exports = router;

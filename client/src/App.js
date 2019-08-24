@@ -28,8 +28,9 @@ const App = ({ userToken, loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersL
   }, [])
 
   useEffect(() => {
-    if(typeof userToken === 'string' && userToken.length)
-      loadUsersLeagues(userToken)
+    if(userToken !== undefined && userToken !== null)
+      console.log(userToken)
+      loadUsersLeagues({ userToken })
   }, [userToken])
 
   return (

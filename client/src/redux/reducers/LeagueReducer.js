@@ -1,7 +1,7 @@
 import { CREATE_NEW_LEAGUE, CLEAR_LEAGUES, LOAD_USERS_LEAGUES } from '../actions/types'
 
 const INITIAL_STATE = {
-    usersLeagues: [] // populate with leagueIds
+    usersLeagues: [] // populate with leagues
 }
 
 const LeagueReducer = (state = INITIAL_STATE, action) => {

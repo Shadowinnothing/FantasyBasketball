@@ -86,7 +86,6 @@ export const login = (email, password ) => async dispatch => {
 
     try {
         const res = await axios.post('/api/auth', body, config)
-        console.log(res)
         dispatch({ type: LOGIN_SUCCESS, payload: res.data })
         dispatch(loadUser())
     } catch(err) {
@@ -132,7 +131,7 @@ export const loadUsersLeagues = ({ userToken }) => async dispatch => {
     }
 
     try {
-        const teams = await axios.get('/api/league/getAllUserLeagues', null,  config)
+        const teams = await axios.get('/api/league/getAllUserLeagues', config)
         const _teams = teams.data.usersLeagues
         dispatch({ type: LOAD_USERS_LEAGUES, payload: _teams })
     } catch(err) {
