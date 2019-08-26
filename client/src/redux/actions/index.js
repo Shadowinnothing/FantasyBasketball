@@ -101,6 +101,9 @@ export const login = (email, password ) => async dispatch => {
 export const logout = () => async dispatch => {
     dispatch({ type: LOGOUT })
     dispatch({ type: CLEAR_LEAGUES })
+
+    // helps clear out the data stored in redux
+    window.location.reload();
 }
 
 // Create a brand new fantasy basketball league
@@ -116,6 +119,7 @@ export const createNewLeague = ({ leagueName, leagueType, userToken }) => async 
     try {
         const newLeague = await axios.post('/api/league/create', postBody, config)
         dispatch({ type: CREATE_NEW_LEAGUE, payload: newLeague })
+        return newLeague
     } catch(err) {
         return err
     }

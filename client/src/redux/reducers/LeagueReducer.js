@@ -9,7 +9,7 @@ const LeagueReducer = (state = INITIAL_STATE, action) => {
         case CREATE_NEW_LEAGUE:
             return {
                 ...state,
-                usersLeagues: [ ...state.usersLeagues, action.payload.data.league._id ]
+                usersLeagues: [ ...state.usersLeagues, action.payload.data.league ]
             }
         case CLEAR_LEAGUES:
             return {

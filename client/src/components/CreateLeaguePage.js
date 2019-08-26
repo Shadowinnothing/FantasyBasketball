@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom'
 
 import { createNewLeague } from '../redux/actions'
 
-const CreateLeaguePage = ({ isAuthenticated, userAuth, createNewLeague }) => {
+const CreateLeaguePage = ({ isAuthenticated, userAuth, createNewLeague, history }) => {
 
     const [formData, setFormData] = useState({
         leagueName: '',
@@ -17,9 +17,11 @@ const CreateLeaguePage = ({ isAuthenticated, userAuth, createNewLeague }) => {
     const onChange = e => 
         setFormData({ ...formData, [e.target.name]: e.target.value })
 
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault()
-        createNewLeague({ leagueName, leagueType, userToken: userAuth.token })
+        const newLeague = await createNewLeague({ leagueName, leagueType, userToken: userAuth.token })
+        const newLeagueId = newLeague.data.league._id
+        history.push(`/leagues/${newLeagueId}`)
     }
 
     // Redirect if not logged in

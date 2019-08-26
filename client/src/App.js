@@ -11,6 +11,7 @@ import Home from './components/Home'
 import LeaguesPage from './components/LeaguesPage'
 import Login from './components/auth/Login'
 import PlayerSearchBar from './components/PlayerSearchBar'
+import SingleLeaguePage from './components/SingleLeaguePage'
 import Register from './components/auth/Register'
 import TeamPage from './components/TeamPage'
 
@@ -29,7 +30,6 @@ const App = ({ userToken, loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersL
 
   useEffect(() => {
     if(userToken !== undefined && userToken !== null)
-      console.log(userToken)
       loadUsersLeagues({ userToken })
   }, [userToken])
 
@@ -42,7 +42,8 @@ const App = ({ userToken, loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersL
       <Route path="/register" component={ Register } />
       <Route path="/login" component={ Login } />
       <Route path="/createLeague" component={ CreateLeaguePage } />
-      <Route path="/leagues" component={ LeaguesPage } />
+      <Route path="/leagues" exact component={ LeaguesPage } />
+      <Route path='/leagues/:id' component={ SingleLeaguePage } />
     </BrowserRouter>
   )
 }

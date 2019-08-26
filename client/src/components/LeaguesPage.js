@@ -17,21 +17,25 @@ const StyledLink = styled.button`
     text-align: center;
 `
 
-const Leagues = ({ usersLeagues, user, isAuthenticated }) => {
+const LeaguesPage = ({ usersLeagues, user, isAuthenticated, history }) => {
 
     const [ allUserLeagues, setAllUsersLeagues ] = useState([])
 
     useEffect(() => {
         setAllUsersLeagues(usersLeagues)
-    }, [isAuthenticated])
+    }, [])
+
+    useEffect(() => {
+        setAllUsersLeagues(usersLeagues)
+    }, [isAuthenticated, usersLeagues, user])
 
     const renderAllUserTeams = () => {
-        return this.state.userTeams.map(team => {
+        return allUserLeagues.map(({ leagueName, leagueType, _id }) => {
             return (
-                <tr key={ team }>
-                    <td data-label="Team Name">{ team }</td>
-                    <td data-label="League Name">PLACEHOLDER</td>
-                    <td data-label="League Type">DAILY</td>
+                <tr key={ _id } onClick={ () => history.push(`/leagues/${_id}`) }>
+                    <td data-label="Team Name">Team Name Here</td>
+                    <td data-label="League Name">{ leagueName }</td>
+                    <td data-label="League Type">{ leagueType }</td>
                 </tr>
             )
         })
@@ -44,7 +48,7 @@ const Leagues = ({ usersLeagues, user, isAuthenticated }) => {
     return (
         <div>
             { 
-                allUserLeagues.length === 0
+                !allUserLeagues.length
                 ?   
                     <CreateLeagueSpan>
                         <h4>Not a member of a league? Start one today!</h4>
@@ -53,7 +57,6 @@ const Leagues = ({ usersLeagues, user, isAuthenticated }) => {
                 :
                     <div>
                         <h2>{ user.name }, here are your fantasy teams</h2>
-                        { usersLeagues[1] }
                         <table className="ui celled table">
                             <thead>
                                 <tr><th>Team Name</th>
@@ -61,7 +64,7 @@ const Leagues = ({ usersLeagues, user, isAuthenticated }) => {
                                 <th>League Type</th>
                             </tr></thead>
                             <tbody>
-                                { /*renderAllUserTeams()*/ }
+                                { renderAllUserTeams() }
                             </tbody>
                         </table>
                         <StyledLink><Link to="/createLeague">Create New League</Link></StyledLink>
@@ -79,4 +82,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Leagues)
+export default connect(mapStateToProps)(LeaguesPage)

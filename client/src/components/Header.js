@@ -73,7 +73,7 @@ class Header extends Component {
                     <div className="ui menu">
 
                         <StyledMenuBar onClick={ () => console.log('home clicked')} className="ui simple dropdown item">
-                            <StyledGravatarImage alt="yeet" src={ 'https://' + this.state.gravatarEmail } />
+                            { this.props.isAuthenticated ? <StyledGravatarImage alt="gravatarImage" src={ 'https://' + this.state.gravatarEmail } /> : '' }
                             { this.props.userScreenName }
                             <div className="menu">
                                 { this.wrapLink('/', 'Home') }
