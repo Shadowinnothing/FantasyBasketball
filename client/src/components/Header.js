@@ -28,6 +28,13 @@ const StyledText = styled.p`
     color: green !important;
 `
 
+// Crappy CSS for logout button
+const StyledLogoutButton = styled.button`
+    position: absolute;
+    right: 0;
+    top: 9px;
+`
+
 class Header extends Component {
 
     state = {
@@ -73,13 +80,22 @@ class Header extends Component {
                     <div className="ui menu">
 
                         <StyledMenuBar onClick={ () => console.log('home clicked')} className="ui simple dropdown item">
-                            { this.props.isAuthenticated ? <StyledGravatarImage alt="gravatarImage" src={ 'https://' + this.state.gravatarEmail } /> : '' }
+                            { this.props.isAuthenticated ? <StyledGravatarImage alt="gravatarImage" src={ 'https://' + this.state.gravatarEmail } /> : 'Haig/Turley Fantasy Hoops' }
                             { this.props.userScreenName }
-                            <div className="menu">
-                                { this.wrapLink('/', 'Home') }
-                                { this.wrapLink('/leagues', 'Leagues') }
-                                { this.wrapLink('/social', 'Friends') }
-                            </div>
+
+                            { this.props.isAuthenticated 
+                                ? <div className="menu">
+                                    { this.wrapLink('/', 'Home') }
+                                    { this.wrapLink('/leagues', 'Leagues') }
+                                    { this.wrapLink('/social', 'Friends') }
+                                </div>
+
+                                : <div className="menu">
+                                    { this.wrapLink('/register', 'Register') }
+                                    { this.wrapLink('/login', 'Login') }
+                                </div>  
+                            }
+                            
                         </StyledMenuBar>
 
                         <div className="ui simple dropdown item">
@@ -97,23 +113,23 @@ class Header extends Component {
                         <a className="item" href={ githubCodeUrl }>
                             Source Code!
                         </a>
-
-                        <Link className="item align right" to="/register">
-                            { this.state.loggedIn ? 'Profile' : 'Register' }
-                        </Link>
-
-                        <Link className="item" to="/login">
-                            { this.state.isAuthenticated ? 'Logout' : 'Login' }
-                        </Link>
-
-                        <button onClick={ this.logout }>
-                            Logout
-                        </button>
+                        
+                        {
+                            this.props.isAuthenticated 
+                                ?   <StyledLogoutButton className="right aligned ui red button" onClick={ this.logout }>
+                                        Logout
+                                    </StyledLogoutButton> 
+                                :   null
+                        }
+                        
 
                     </div>
 
                     <div>
-                        { this.props.isAuthenticated ? <UserNavBar /> : null }
+                        { this.props.isAuthenticated 
+                            ? <UserNavBar /> 
+                            : null 
+                        }
                     </div>
                 </div>
             )

@@ -88,6 +88,9 @@ export const login = (email, password ) => async dispatch => {
         const res = await axios.post('/api/auth', body, config)
         dispatch({ type: LOGIN_SUCCESS, payload: res.data })
         dispatch(loadUser())
+
+        // Load data into redux easier
+        window.location.reload();
     } catch(err) {
         const errors = err.response.data.errors
         if(errors){
