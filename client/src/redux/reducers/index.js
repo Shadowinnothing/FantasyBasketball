@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux'
 
 import AuthReducer from './AuthReducer'
-import LeagueReducer from './LeagueReducer'
-import PlayerReducer from './PlayerReducer'
-import TeamReducer from './TeamReducer'
+import FantasyLeagueReducer from './FantasyLeagueReducer'
+import NBAPlayerReducer from './NBAPlayerReducer'
+import NBATeamReducer from './NBATeamReducer'
 
 export default combineReducers({
     Auth: AuthReducer,
-    Leagues: LeagueReducer,
-    NBAPlayers: PlayerReducer,
-    NBATeams: TeamReducer
+    Leagues: FantasyLeagueReducer,
+    NBAPlayers: NBAPlayerReducer,
+    NBATeams: NBATeamReducer
 })

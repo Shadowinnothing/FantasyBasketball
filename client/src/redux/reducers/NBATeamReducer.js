@@ -33,7 +33,7 @@ const teamNames = [
     { teamId: 41, name: "Washington Wizards" }
 ]
 
-const TeamReducer = (state = {}, action) => {
+const NBATeamReducer = (state = {}, action) => {
     switch(action.type){
         case GET_ALL_NBA_TEAMS:
             return { ...state, allNBATeams: teamNames }
@@ -45,4 +45,4 @@ const TeamReducer = (state = {}, action) => {
     }
 }
 
-export default TeamReducer
+export default NBATeamReducer

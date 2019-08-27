@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     allPlayers: []
 }
 
-const PlayerReducer = (state = INITIAL_STATE, action) => {
+const NBAPlayerReducer = (state = INITIAL_STATE, action) => {
     switch(action.type){
         case GET_ALL_NBA_PLAYERS:
             return {
@@ -16,4 +16,4 @@ const PlayerReducer = (state = INITIAL_STATE, action) => {
     }
 }
 
-export default PlayerReducer
+export default NBAPlayerReducer

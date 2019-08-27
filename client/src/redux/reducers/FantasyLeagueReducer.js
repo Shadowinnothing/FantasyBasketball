@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     usersLeagues: [] // populate with leagues
 }
 
-const LeagueReducer = (state = INITIAL_STATE, action) => {
+const FantasyLeagueReducer = (state = INITIAL_STATE, action) => {
     switch(action.type){
         case CREATE_NEW_LEAGUE:
             return {
@@ -24,4 +24,4 @@ const LeagueReducer = (state = INITIAL_STATE, action) => {
     }
 }
 
-export default LeagueReducer
+export default FantasyLeagueReducer

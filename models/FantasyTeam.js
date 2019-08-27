@@ -8,11 +8,15 @@ const FantasyTeamSchema = new Schema({
         type: String,
         required: true
     },
+    teamOwner: {
+        type: String,
+        required: true // userId
+    },
     players: {
         type: [ Number ]
     },
     leagueId: {
-        type: Number,
+        type: String,
         required: true
     }
 })

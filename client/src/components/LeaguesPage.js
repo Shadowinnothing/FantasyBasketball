@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 //import axios from 'axios'
 
 const CreateLeagueSpan = styled.div`
@@ -69,7 +69,7 @@ const LeaguesPage = ({ usersLeagues, user, isAuthenticated, history }) => {
                         </table>
                         <StyledLink><Link to="/createLeague">Create New League</Link></StyledLink>
                     </div>
-                }
+            }
         </div>
     )
 }

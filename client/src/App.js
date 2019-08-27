@@ -6,6 +6,7 @@ import { loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersLeagues } from './
 import setAuthToken from './utils/setAuthToken';
 
 import CreateLeaguePage from './components/CreateLeaguePage'
+import CreateTeamPage from './components/CreateTeamPage'
 import Header from './components/Header'
 import Home from './components/Home'
 import LeaguesPage from './components/LeaguesPage'
@@ -43,7 +44,8 @@ const App = ({ userToken, loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersL
       <Route path="/login" component={ Login } />
       <Route path="/createLeague" component={ CreateLeaguePage } />
       <Route path="/leagues" exact component={ LeaguesPage } />
-      <Route path='/leagues/:id' component={ SingleLeaguePage } />
+      <Route path="/leagues/:leagueId" exact component={ SingleLeaguePage } />
+      <Route path="/leagues/:leagueId/createTeam" exact component={ CreateTeamPage } />
     </BrowserRouter>
   )
 }

@@ -12,7 +12,8 @@ import {
     LOGOUT,
     CREATE_NEW_LEAGUE,
     CLEAR_LEAGUES,
-    LOAD_USERS_LEAGUES
+    LOAD_USERS_LEAGUES,
+    CREATE_NEW_FANTASY_TEAM
 } from '../actions/types' 
 
 import setAuthToken from '../../utils/setAuthToken'
@@ -145,4 +146,22 @@ export const loadUsersLeagues = ({ userToken }) => async dispatch => {
         return err
     }
     
+}
+
+// Create a new Fantasy Team
+export const createFantasyTeam = ({ teamName, leagueId, teamOwner, userToken }) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'AuthToken': userToken
+        }
+    }
+    const postBody = { teamName, leagueId, teamOwner }
+    try {
+        const createdTeam = await axios.post('/api/fantasyTeams/createTeam', postBody, config)
+        dispatch({ type: CREATE_NEW_FANTASY_TEAM, payload: createdTeam.data.newTeam })
+        return createdTeam.data.newTeam
+    } catch(err) {
+        return err
+    }
 }
