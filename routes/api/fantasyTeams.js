@@ -6,6 +6,7 @@ const auth = require( '../../middleware/auth')
 
 const User = require('../../models/User')
 const FantasyTeam = require('../../models/FantasyTeam')
+const League = require('../../models/League')
 
 // @route   GET /api/fantasyTeams/getAllUserTeams
 // @desc    Get all Fantasy Teams associated with the user
@@ -15,10 +16,8 @@ router.get('/getAllUserTeams', auth, async (req, res) => {
   const userId = req.user.id
 
   try {
-    const user = await User.findOne({ _id: userId })
-
-    const allTeams = user.teams
-
+    let allTeams = await FantasyTeam.find()
+    allTeams = allTeams.filter(t => t.teamOwner === userId) 
     res.send({ allTeams })
   } catch(err) {
     res.send({ err })
@@ -41,13 +40,20 @@ router.post('/createTeam', [
 
   const { leagueId, teamName, teamOwner } = req.body
 
-  const newTeam = new FantasyTeam({
-    leagueId, teamName, teamOwner
-  })
-
-  await newTeam.save()
-
-  res.send({ newTeam })
+  try {
+    const newTeam = new FantasyTeam({
+      leagueId, teamName, teamOwner
+    })
+    await newTeam.save()
+    
+    // Have to append the newTeam.id to the League and User objects in the db
+    await League.findByIdAndUpdate({ _id: leagueId }, { $push: { teamOwners: teamOwner } })
+    await User.findByIdAndUpdate({ _id: teamOwner }, { $push: { teams: newTeam._id } })
+  
+    res.send({ newTeam })
+  } catch(err) {
+    return err
+  }
 })
 
 module.exports = router;
