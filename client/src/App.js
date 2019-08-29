@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersLeagues, loadUsersFantasyTeams } from './redux/actions/index'
@@ -11,8 +11,9 @@ import Header from './components/Header'
 import Home from './components/Home'
 import LeaguesPage from './components/LeaguesPage'
 import Login from './components/auth/Login'
+import PageNotFound from './components/PageNotFound'
 import PlayerSearchBar from './components/PlayerSearchBar'
-import SingleFantasyLeaguePage from './components/SingleFantasyTeamPage'
+import SingleFantasyTeamPage from './components/SingleFantasyTeamPage'
 import SingleLeaguePage from './components/SingleLeaguePage'
 import Register from './components/auth/Register'
 import TeamPage from './components/TeamPage'
@@ -38,17 +39,20 @@ const App = ({ userToken, loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersL
 
   return (
     <BrowserRouter>
-      <Header />
-      <Route exact path='/' component={ Home } />
-      <Route path="/playerSearch" component={ PlayerSearchBar }/>
-      <Route path="/teams/:teamId/:teamName" component={ TeamPage } />
-      <Route path="/register" component={ Register } />
-      <Route path="/login" component={ Login } />
-      <Route path="/createLeague" component={ CreateLeaguePage } />
-      <Route path="/leagues" exact component={ LeaguesPage } />
-      <Route path="/leagues/:leagueId" exact component={ SingleLeaguePage } />
-      <Route path="/leagues/:leagueId/createTeam" exact component={ CreateTeamPage } />
-      <Route path="/leagues/:leagueId/teams/:teamId" exact component={ SingleFantasyLeaguePage } />
+        <Header />
+        <Switch>
+          <Route exact path='/' component={ Home } />
+          <Route path="/playerSearch" component={ PlayerSearchBar }/>
+          <Route path="/teams/:teamId/:teamName" component={ TeamPage } />
+          <Route path="/register" component={ Register } />
+          <Route path="/login" component={ Login } />
+          <Route path="/createLeague" component={ CreateLeaguePage } />
+          <Route path="/leagues" exact component={ LeaguesPage } />
+          <Route path="/leagues/:leagueId" exact component={ SingleLeaguePage } />
+          <Route path="/leagues/:leagueId/createTeam" exact component={ CreateTeamPage } />
+          <Route path="/leagues/:leagueId/teams/:teamId" exact component={ SingleFantasyTeamPage } />
+          <Route component={ PageNotFound } />
+        </Switch>
     </BrowserRouter>
   )
 }

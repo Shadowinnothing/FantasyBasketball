@@ -24,7 +24,7 @@ const CreateTeamPage = ({ match, isAuthenticated, userAuth, createFantasyTeam, h
             userToken: userAuth.token
         })
         
-        history.push(`/leagues/${match.params.leagueId}/team/${newTeam._id}`)
+        history.push(`/leagues/${match.params.leagueId}/teams/${newTeam._id}`)
     }
 
     // Redirect if not logged in
