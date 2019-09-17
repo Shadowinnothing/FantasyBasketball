@@ -14,7 +14,7 @@ class TeamPage extends Component {
 
     componentDidMount = () => {
         this.setState({ 
-            teamName: this.props.match.params.teamName.replace('_', ' '),
+            teamName: this.props.match.params.teamName.replace(/_/g, ' '),
             teamId: this.props.match.params.teamId
         })
     }
@@ -22,7 +22,7 @@ class TeamPage extends Component {
     componentDidUpdate = (prevProps, prevState) => {
         if(prevProps.match.params.teamName !== this.props.match.params.teamName) {
             this.setState({
-                teamName: this.props.match.params.teamName.replace('_', ' '),
+                teamName: this.props.match.params.teamName.replace(/_/g, ' '),
                 teamId: this.props.match.params.teamId
             })
         }

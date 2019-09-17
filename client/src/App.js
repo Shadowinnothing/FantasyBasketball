@@ -16,6 +16,7 @@ import PlayerSearchBar from './components/PlayerSearchBar'
 import SingleFantasyTeamPage from './components/SingleFantasyTeamPage'
 import SingleLeaguePage from './components/SingleLeaguePage'
 import Register from './components/auth/Register'
+import SocialHomePage from './components/SocialHomePage'
 import TeamPage from './components/TeamPage'
 
 if(localStorage.token){
@@ -51,6 +52,7 @@ const App = ({ userToken, loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersL
           <Route path="/leagues/:leagueId" exact component={ SingleLeaguePage } />
           <Route path="/leagues/:leagueId/createTeam" exact component={ CreateTeamPage } />
           <Route path="/leagues/:leagueId/teams/:teamId" exact component={ SingleFantasyTeamPage } />
+          <Route path="/social" exact component={ SocialHomePage } />
           <Route component={ PageNotFound } />
         </Switch>
     </BrowserRouter>
