@@ -21,12 +21,17 @@ router.post('/create', [
     }
 
     const { leagueName, leagueType } = req.body
+    // default league settings
+    const leagueSettings = {
+      test: 20
+    }
     const leagueManagers = [ req.user.id ]
 
     const league = new League({
       leagueName,
       leagueType,
-      leagueManagers
+      leagueManagers,
+      leagueSettings
     })
 
     await league.save()

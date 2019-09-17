@@ -2,6 +2,8 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema 
 
+const FantasyLeagueSettings = require('./LeagueSettings')
+
 const LeagueSchema = new Schema({
     leagueName: {
         type: String,
@@ -27,6 +29,10 @@ const LeagueSchema = new Schema({
     },
     teamOwners: {
         type: [ String ]
+    },
+    leagueSettings: {
+        type: FantasyLeagueSettings,
+        required: true
     }
 })
 
