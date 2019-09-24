@@ -31,8 +31,7 @@ const LeagueSchema = new Schema({
         type: [ String ]
     },
     leagueSettings: {
-        type: FantasyLeagueSettings,
-        required: true
+        type: FantasyLeagueSettings
     }
 })
 

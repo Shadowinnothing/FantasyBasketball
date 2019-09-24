@@ -27,6 +27,10 @@ const UserSchema = new Schema({
     avatar: {
         type: String
     },
+    friends: {
+        type: [],
+        default: []
+    },
     teams: {
         type: [ String ] // links to teamId
     }

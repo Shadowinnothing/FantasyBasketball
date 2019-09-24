@@ -5,10 +5,10 @@ const Schema = mongoose.Schema
 const FantasyLeagueSettings = new Schema({
     divisions: {
         numberOfDivisions: { type: Number, default: 2 },
-        divisionNames: { type: [String], defauly: ['East', 'West'] } 
+        divisionNames: { type: [String], default: ['East', 'West'] } 
     },
     draft: {
-        draftTime: { type: Date },
+        draftTime: { type: Date, default: '2019-10-20T04:45:00.000Z' },
         draftType: { // Snake, Auction, Offline(leagueManager inputs teams?)
             type: String,
             default: 'SNAKE',
@@ -24,7 +24,7 @@ const FantasyLeagueSettings = new Schema({
     },
     keepers: {
         enableKeepers: { type: Boolean, default: false },
-        numberOfKeepers: { type: Number, default: 1 }
+        numberOfKeepers: { type: Number, default: 0 }
     },
     roster: {
         maxRosterSize: { type: Number, default: 15 },
@@ -55,11 +55,11 @@ const FantasyLeagueSettings = new Schema({
             blocks: { type: Number, default: 2.5 }
         },
         categoryValues: {
-            points: { type: Number, enabled: false },
-            rebounds: { type: Number, enabled: false },
-            assists: { type: Number, enabled: false },
-            steals: { type: Number, enabled: false },
-            blocks: { type: Number, enabled: false }
+            points: { type: Boolean, default: false },
+            rebounds: { type: Boolean, default: false },
+            assists: { type: Boolean, default: false },
+            steals: { type: Boolean, default: false },
+            blocks: { type: Boolean, default: false }
         }
     }
 })

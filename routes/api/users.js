@@ -4,6 +4,8 @@ const gravatar = require('gravatar')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+const auth = require( '../../middleware/auth')
+
 const User = require('../../models/User')
 const { jwtSecret } = require('../../config/keys')
 
@@ -58,8 +60,75 @@ router.post('/', [
             res.json({ token })
         })
     } catch(err) {
-        console.erro(err.message)
+        console.error(err.message)
         res.status(500).send('Server Error')
+    }
+})
+
+// @route   POST /api/users/search
+// @desc    Search for users using their email/username
+// @access  Private
+router.post('/search', auth, [
+    check('searchTerm', 'A Search Term is required').exists(),
+    check('searchTerm', 'Search Term has to be between 2 and 30 characters').isLength({ min: 4, max: 30 }),
+], async (req, res) => {
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() })
+    }
+    let { searchTerm } = req.body
+    searchTerm = searchTerm.toLowerCase()
+
+    try {
+        let users = await User.find()
+        // return users with an email/screenName containing the searchTerm
+        users = users.filter(user => 
+            user.email.substring(0, user.email.lastIndexOf("@")).toLowerCase().includes(searchTerm)
+            || user.screenName.toLowerCase().includes(searchTerm)
+        )
+        // strip password from returned users
+        users = users.map(user => { 
+            user.password = undefined
+            return { _id: user.id, screenName: user.screenName }
+        })
+
+        res.send({ users })
+    } catch(err) {
+        console.error(err.message)
+        res.status(500).send('Server Error')
+    }
+})
+
+// @route   POST /api/users/friends/add
+// @desc    Add a friend to the current user
+// @access  Private
+router.post('/friends/add', auth, async (req, res) => {
+    // these names are stupid and I hate them but I can't think of anything better atm
+    // They explain themselves sure but blegh
+    const { friendBeingAddedId, userAddingFriendId } = req.body
+
+    if(!friendBeingAddedId){
+        return res.status(404).send({ msg: 'No User Found' })
+    }
+
+    // find user and remove sensitive data
+    const friendBeingAdded = await User.findById(friendBeingAddedId)
+    friendBeingAdded.password = undefined
+    friendBeingAdded.teams = undefined
+    friendBeingAdded.friends = undefined
+
+    // add user to user's friend list
+    try {
+        const data = await User.findByIdAndUpdate(userAddingFriendId, 
+                { $push: { friends: friendBeingAdded } },
+                { useFindAndModify: false, new: true }
+        )
+
+        res.status(200).send({ data })
+    } catch(err) {
+        console.log(err)
+        return res.status(500).send('Server Broken')
     }
 })
 
