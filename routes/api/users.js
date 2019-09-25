@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const auth = require( '../../middleware/auth')
+const cleanUser = require( '../../middleware/cleanUser')
 
 const User = require('../../models/User')
 const { jwtSecret } = require('../../config/keys')
@@ -113,19 +114,25 @@ router.post('/friends/add', auth, async (req, res) => {
     }
 
     // find user and remove sensitive data
-    const friendBeingAdded = await User.findById(friendBeingAddedId)
-    friendBeingAdded.password = undefined
-    friendBeingAdded.teams = undefined
-    friendBeingAdded.friends = undefined
+    let friendBeingAdded = await User.findById(friendBeingAddedId)
+    friendBeingAdded = cleanUser(friendBeingAdded)
 
     // add user to user's friend list
     try {
-        const data = await User.findByIdAndUpdate(userAddingFriendId, 
-                { $push: { friends: friendBeingAdded } },
-                { useFindAndModify: false, new: true }
+        // add new friend to current user
+        let newUserData = await User.findByIdAndUpdate(userAddingFriendId, 
+            { $push: { friends: friendBeingAdded } },
+            { useFindAndModify: false, new: true }
+        )
+        newUserData = cleanUser(newUserData)
+
+        // add current user to new friends friend's list
+        await User.findByIdAndUpdate(friendBeingAddedId, 
+            { $push: { friends: newUserData } },
+            { useFindAndModify: false, new: true }
         )
 
-        res.status(200).send({ data })
+        res.status(200).send({ newUserData })
     } catch(err) {
         console.log(err)
         return res.status(500).send('Server Broken')

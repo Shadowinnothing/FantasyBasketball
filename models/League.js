@@ -28,7 +28,7 @@ const LeagueSchema = new Schema({
         type: String
     },
     teamOwners: {
-        type: [ String ]
+        type: []
     },
     leagueSettings: {
         type: FantasyLeagueSettings

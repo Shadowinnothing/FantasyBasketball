@@ -33,7 +33,7 @@ const LeaguesPage = ({ usersLeagues, usersTeams, user, isAuthenticated, history 
     }, [isAuthenticated, usersLeagues, user, usersTeams])
 
     const getTeamName = _leagueId => {
-        let team = allUserTeams[0].teamName !== 'undefined'
+        let team = allUserTeams[0] !== undefined
             ? allUserTeams.filter(({ leagueId }) => leagueId === _leagueId)[0]
             : undefined
         return team !== undefined ? team.teamName : '*No Team Name*'
