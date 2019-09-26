@@ -18,7 +18,7 @@ const LeagueSchema = new Schema({
         default: Date.now()
     },
     leagueManagers: {
-        type: [ String ],
+        type: [],
         required: true
     },
     leagueSetting: {

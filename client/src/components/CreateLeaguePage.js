@@ -20,6 +20,7 @@ const CreateLeaguePage = ({ isAuthenticated, userAuth, createNewLeague, history 
     const onSubmit = async e => {
         e.preventDefault()
         const newLeague = await createNewLeague({ leagueName, leagueType, userToken: userAuth.token })
+        //console.log(newLeague)
         const newLeagueId = newLeague.data.league._id
         history.push(`/leagues/${newLeagueId}`)
     }
@@ -35,7 +36,6 @@ const CreateLeaguePage = ({ isAuthenticated, userAuth, createNewLeague, history 
                 <h1 className="large text-primary">Create New Fantasy Basketball League</h1>
                 <p className="lead"><i className="fas fa-user"></i> Create Your League!</p>
                 <form className="form" onSubmit={ e => onSubmit(e) } >
-
                     <div>
                         <input
                             type="leagueName"

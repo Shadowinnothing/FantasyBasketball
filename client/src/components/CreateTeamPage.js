@@ -19,10 +19,11 @@ const CreateTeamPage = ({ match, isAuthenticated, userAuth, createFantasyTeam, h
         e.preventDefault()
         const newTeam = await createFantasyTeam({ 
             teamName, 
-            teamOwner: userAuth.user._id,
+            teamOwner: userAuth.user,
             leagueId: match.params.leagueId,
             userToken: userAuth.token
         })
+        console.log(newTeam)
         
         history.push(`/leagues/${match.params.leagueId}/teams/${newTeam._id}`)
     }

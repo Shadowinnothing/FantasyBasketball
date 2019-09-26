@@ -48,9 +48,12 @@ router.post('/', [
             return res.status(400).json({ errors: [{ msg: 'Invalid Credentials' }] })
         }
 
+        console.log(user)
+
         // jwt for saved user
         const payload = {
             user: {
+                ...user,
                 id: user.id
             }
         }

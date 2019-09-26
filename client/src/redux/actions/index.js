@@ -160,6 +160,7 @@ export const createFantasyTeam = ({ teamName, leagueId, teamOwner, userToken }) 
     const postBody = { teamName, leagueId, teamOwner }
     try {
         const createdTeam = await axios.post('/api/fantasyTeams/createTeam', postBody, config)
+        console.log(createdTeam)
         dispatch({ type: CREATE_NEW_FANTASY_TEAM, payload: createdTeam.data.newTeam })
         return createdTeam.data.newTeam
     } catch(err) {

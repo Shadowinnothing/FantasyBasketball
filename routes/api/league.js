@@ -23,7 +23,11 @@ router.post('/create', [
     }
 
     const { leagueName, leagueType } = req.body
-    const leagueManagers = [ req.user.id ]
+    
+    // added entire user object to the JWT
+    // data is now accessed by ._doc
+    // console.log(req.user) // to see contents of JWT for future debugging
+    const leagueManagers = [ req.user._doc ]
 
     const league = new League({
       leagueName,
@@ -101,9 +105,11 @@ router.delete('/', auth, async (req, res) => {
 // @access  Private
 router.get('/getAllUserLeagues', auth, async (req, res) => {
 
-    // grab all leagues from db and return the db;s
+    // grab all leagues from db
     let find = await League.find()
-    const usersLeagues = find.filter( f => f.leagueManagers.includes(req.user.id) )
+
+    // changed to accomodate new structure of saving league data
+    const usersLeagues = find.filter( f => f.leagueManagers.filter(man => man._id).length)
 
     res.send({ usersLeagues })
 })
@@ -152,10 +158,12 @@ router.post('/addTeamOwner', auth, [
         // Add leagueId to user 
         // Might have to restructor this entire thing...
         // May or may not return to fix this 
-        // const userData = await User.findByIdAndUpdate(newOwnerUserId,
+        // let userData = await User.findByIdAndUpdate(newOwnerUserId,
         //     { $push: { teamOwners: newUser } },
         //     { useFindAndModify: false, new: true }
         // )
+        // userData = cleanUser(userData)
+        // console.log(userData)
 
     } catch(err) {
         console.log(err)

@@ -90,8 +90,8 @@ router.post('/search', auth, [
         )
         // strip password from returned users
         users = users.map(user => { 
-            user.password = undefined
-            return { _id: user.id, screenName: user.screenName }
+            user = cleanUser(user)
+            return user
         })
 
         res.send({ users })
@@ -110,7 +110,7 @@ router.post('/friends/add', auth, async (req, res) => {
     const { friendBeingAddedId, userAddingFriendId } = req.body
 
     if(!friendBeingAddedId){
-        return res.status(404).send({ msg: 'No User Found' })
+        return res.status(404).send({ msg: 'newOwnerUserId Not Found' })
     }
 
     // find user and remove sensitive data
@@ -124,7 +124,9 @@ router.post('/friends/add', auth, async (req, res) => {
             { $push: { friends: friendBeingAdded } },
             { useFindAndModify: false, new: true }
         )
+        let newFriendsList = newUserData.friends
         newUserData = cleanUser(newUserData)
+        newUserData.friends = newFriendsList
 
         // add current user to new friends friend's list
         await User.findByIdAndUpdate(friendBeingAddedId, 

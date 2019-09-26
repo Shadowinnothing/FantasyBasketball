@@ -18,7 +18,12 @@ const SingleLeaguePage = ({ match, usersLeagues }) => {
             <div>
                 <h3>League Name: { league.leagueName }</h3>
                 <h4>League Type: { league.leagueType }</h4>
-                <h4>League Managers: { league.leagueManagers.map(lm => <p key={ lm }>{ lm }</p>) }</h4>
+                <h4>League Managers: { league.leagueManagers.map(({ id }) => {
+                    console.log(id)
+                    return (
+                        <p key={ id }>{ id }</p>
+                    )
+                })}</h4>
 
                 <div>
                     <h2>No team? Create one now!</h2>
