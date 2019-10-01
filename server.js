@@ -2,12 +2,16 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const date = require('date-and-time')
 const path = require('path')
+const mongoose = require('mongoose')
 
 // Connect to the DB
 require('./config/db')()
 
 // Initialize application
 const app = express()
+
+// stops a deprecation warning from occuring when making a mongodb call
+mongoose.set('useFindAndModify', false);
 
 // Body Parser Middleware
 app.use(bodyParser.urlencoded({ extended: false }))

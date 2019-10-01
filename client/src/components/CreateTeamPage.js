@@ -17,9 +17,10 @@ const CreateTeamPage = ({ match, isAuthenticated, userAuth, createFantasyTeam, h
 
     const onSubmit = async e => {
         e.preventDefault()
+        console.log('MADE IT!')
         const newTeam = await createFantasyTeam({ 
             teamName, 
-            teamOwner: userAuth.user,
+            teamOwner: userAuth.user._id,
             leagueId: match.params.leagueId,
             userToken: userAuth.token
         })

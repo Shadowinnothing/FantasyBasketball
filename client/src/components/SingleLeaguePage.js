@@ -13,7 +13,8 @@ const SingleLeaguePage = ({ match, usersLeagues }) => {
             setLeague( usersLeagues.filter(leg => leg._id === match.params.leagueId )[0] )
     }, [usersLeagues])
 
-    if(league)
+    if(league) {
+        console.log(league)
         return (
             <div>
                 <h3>League Name: { league.leagueName }</h3>
@@ -33,6 +34,7 @@ const SingleLeaguePage = ({ match, usersLeagues }) => {
                 </div>
             </div>
         )
+    }
     return <div>Placeholder</div>
 }
 

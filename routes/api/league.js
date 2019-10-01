@@ -27,7 +27,7 @@ router.post('/create', [
     // added entire user object to the JWT
     // data is now accessed by ._doc
     // console.log(req.user) // to see contents of JWT for future debugging
-    const leagueManagers = [ req.user._doc ]
+    const leagueManagers = [ cleanUser(req.user) ]
 
     const league = new League({
       leagueName,
@@ -108,8 +108,7 @@ router.get('/getAllUserLeagues', auth, async (req, res) => {
     // grab all leagues from db
     let find = await League.find()
 
-    // changed to accomodate new structure of saving league data
-    const usersLeagues = find.filter( f => f.leagueManagers.filter(man => man._id).length)
+    const usersLeagues = find.filter(f => f.leagueManagers.filter(man => man._id).length)
 
     res.send({ usersLeagues })
 })
