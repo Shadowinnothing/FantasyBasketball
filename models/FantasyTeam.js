@@ -18,6 +18,10 @@ const FantasyTeamSchema = new Schema({
     leagueId: {
         type: String,
         required: true
+    },
+    isManager: {
+        type: Boolean,
+        default: false
     }
 })
 

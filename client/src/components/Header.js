@@ -49,7 +49,7 @@ class Header extends Component {
     }
 
     componentDidUpdate = (prevProps) => {
-        if(this.props !== prevProps) {
+        if(this.props !== prevProps && this.props.userAvatar !== undefined) {
             this.setState({
                 gravatarEmail: this.props.userAvatar.substr(2),
                 loaded: true,

@@ -23,18 +23,18 @@ router.post('/create', [
     }
 
     const { leagueName, leagueType } = req.body
-    
-    // added entire user object to the JWT
-    // data is now accessed by ._doc
-    // console.log(req.user) // to see contents of JWT for future debugging
-    const leagueManagers = [ cleanUser(req.user) ]
 
     const league = new League({
       leagueName,
       leagueType,
-      leagueManagers,
       leagueSettings: {} // default league settings
     })
+
+    // add leagueId to user's managedLeague list
+    await User.findByIdAndUpdate(req.user._id, 
+        { $push: { userManagedLeagues: league._id } },
+        { useFindAndModify: false, new: true }
+    )
 
     await league.save()
 
@@ -104,11 +104,10 @@ router.delete('/', auth, async (req, res) => {
 // @desc    Get all Fantasy Leagues associated with the user
 // @access  Private
 router.get('/getAllUserLeagues', auth, async (req, res) => {
-
     // grab all leagues from db
-    let find = await League.find()
-
-    const usersLeagues = find.filter(f => f.leagueManagers.filter(man => man._id).length)
+    // return only leagues that the user is a member of
+    // check if userId exists inside of league.owners, return whole league if true
+    let usersLeagues = await League.find().map(league => league.filter(l => l.teamOwners.includes(req.user._id)))
 
     res.send({ usersLeagues })
 })
@@ -170,6 +169,16 @@ router.post('/addTeamOwner', auth, [
     }
 
     return res.status(200).send({ msg: `user ${newOwnerUserId} added to league ${leagueId}` })
+})
+
+// @route   GET /api/league/getManagedTeams
+// @desc    Return all leagueIds the user manages
+// @access  Private
+router.get('/getManagedTeams', auth, async (req, res) => {
+
+    console.log(req)
+    //let allLeagues = League.find()
+    res.send({ msg: 'yeet' })
 })
 
 module.exports = router;

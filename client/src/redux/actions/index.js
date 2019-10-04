@@ -14,7 +14,9 @@ import {
     CLEAR_LEAGUES,
     LOAD_USERS_LEAGUES,
     CREATE_NEW_FANTASY_TEAM,
-    LOAD_USERS_FANTASY_TEAMS
+    LOAD_USERS_FANTASY_TEAMS,
+    LOAD_USERS_MANAGED_LEAGUES,
+    ADD_NEW_LEAGUE_MANAGER
 } from '../actions/types' 
 
 import setAuthToken from '../../utils/setAuthToken'
@@ -112,7 +114,7 @@ export const logout = () => async dispatch => {
 }
 
 // Create a brand new fantasy basketball league
-export const createNewLeague = ({ leagueName, leagueType, userToken }) => async dispatch => {
+export const createNewLeague = ({ leagueName, leagueType, userToken, userId }) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -124,7 +126,16 @@ export const createNewLeague = ({ leagueName, leagueType, userToken }) => async 
     try {
         const newLeague = await axios.post('/api/league/create', postBody, config)
         dispatch({ type: CREATE_NEW_LEAGUE, payload: newLeague })
-        return newLeague
+
+        // create a team for the leagueManager
+        await axios.post('/api/fantasyTeams/createTeam', {
+            leagueId: newLeague.data.league._id,
+            teamName: "DEFAULT NAME",
+            teamOwner: userId,
+            isManager: true
+        }, config)
+        
+        return newLeague.data.league
     } catch(err) {
         return err
     }
@@ -143,6 +154,9 @@ export const loadUsersLeagues = ({ userToken }) => async dispatch => {
         const teams = await axios.get('/api/league/getAllUserLeagues', config)
         const _teams = teams.data.usersLeagues
         dispatch({ type: LOAD_USERS_LEAGUES, payload: _teams })
+
+        // get list of all user managed leagues
+        //dispatch({ type: LOAD_USERS_MANAGED_LEAGUES, payload: null })
     } catch(err) {
         return err
     }

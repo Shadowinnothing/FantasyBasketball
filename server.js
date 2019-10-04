@@ -20,6 +20,12 @@ app.use(bodyParser.json())
 // React Middleware
 app.use(express.static(path.join(__dirname, '/client/build')))
 
+// Fix for app crashing on refresh
+// "cannot GET /playerSearch" error"
+// app.get('/*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'public', 'index.html'))
+// })
+
 // use routes
 app.use('/api/auth', require('./routes/api/auth'))
 app.use('/api/fantasyTeams', require('./routes/api/fantasyTeams'))

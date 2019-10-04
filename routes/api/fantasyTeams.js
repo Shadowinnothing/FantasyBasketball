@@ -30,7 +30,8 @@ router.get('/getAllUserTeams', auth, async (req, res) => {
 router.post('/createTeam', [
   check('leagueId', 'LeagueId is required').exists(),
   check('teamName', 'teamName is required').exists(),
-  check('teamOwner', 'teamOwner is required').exists()
+  check('teamOwner', 'teamOwner is required').exists(),
+  check('isManager', 'isManager is required').exists()
 ], auth, async (req, res) => {
 
   const errors = validationResult(req)
@@ -38,11 +39,11 @@ router.post('/createTeam', [
       return res.status(400).json({ errors: errors.array() })
   }
 
-  const { leagueId, teamName, teamOwner } = req.body
+  const { leagueId, teamName, teamOwner, isManager } = req.body
 
   try {
     const newTeam = new FantasyTeam({
-      leagueId, teamName, teamOwner
+      leagueId, teamName, teamOwner, isManager
     })
     await newTeam.save()
     

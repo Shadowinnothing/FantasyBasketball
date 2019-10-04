@@ -1,4 +1,7 @@
-import { CREATE_NEW_FANTASY_TEAM, LOAD_USERS_FANTASY_TEAMS } from '../actions/types'
+import {
+    CREATE_NEW_FANTASY_TEAM,
+    LOAD_USERS_FANTASY_TEAMS
+} from '../actions/types'
 
 const INITIAL_STATE = {
     usersTeams: []

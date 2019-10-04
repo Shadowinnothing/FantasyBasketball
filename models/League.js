@@ -17,13 +17,6 @@ const LeagueSchema = new Schema({
         type: Date,
         default: Date.now()
     },
-    leagueManagers: {
-        type: [],
-        required: true
-    },
-    leagueSetting: {
-        type: String
-    },
     leagueNote: {
         type: String
     },
