@@ -22,6 +22,13 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
             setUserTeam( usersTeams.filter(team => team.leagueId === match.params.leagueId)[0] )
     }, [usersTeams])
 
+    // determine if user is manager of the league or not
+    useEffect(() => {
+        if(userTeam !== undefined) {
+            setUserIsLeagueManager(userTeam.isManager)
+        }
+    }, [userTeam])
+
     // render different instances of the league route helper
     const displayTeamData = (route, headerText, buttonText) => {
         return (
@@ -111,8 +118,7 @@ const mapStateToProps = state => {
         usersLeagues: state.Leagues.usersLeagues,
         usersTeams: state.FantasyTeams.usersTeams,
         usersFriends: state.Auth.user.friends,
-        userToken: state.Auth.token,
-        userManagedLeagues: state.Auth.user.userManagedLeagues
+        userToken: state.Auth.token
     }
 }
 

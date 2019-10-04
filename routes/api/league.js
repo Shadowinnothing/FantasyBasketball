@@ -127,18 +127,19 @@ router.get('/allLeagueData/:leagueId', auth, async (req, res) => {
 router.post('/addTeamOwner', auth, [
     check('leagueId', 'leagueId is required').exists(),
     check('leagueManagerId', 'leagueManagerId is required').exists(),
-    check('newOwnerUserId', 'newOwnerUserId is required').exists()
+    check('newOwnerUserId', 'newOwnerUserId is required').exists(),
+    check('leagueManagerTeamId', 'leagueManagerTeamId is required').exists()
 ], async (req, res) => {
     const errors = validationResult(req)
     if(!errors.isEmpty()){
         return res.status(400).json({ errors: errors.array() })
     }
 
-    const { leagueId, newOwnerUserId, leagueManagerId } = req.body
+    const { leagueId, newOwnerUserId, leagueManagerId, leagueManagerTeamId } = req.body
     let leagueToUpdate = null
 
     try {
-        leagueToUpdate = await leagueAuth(leagueId, leagueManagerId)
+        leagueToUpdate = await leagueAuth(leagueId, leagueManagerId, leagueManagerTeamId)
         if(leagueToUpdate.error){
             return res.status(412).send(leagueToUpdate.error)
         }
@@ -147,22 +148,10 @@ router.post('/addTeamOwner', auth, [
         newUser = cleanUser(newUser)
 
         // push newOwnerUserId to the league's teamOwners
-        const data = await League.findByIdAndUpdate(leagueId, 
-            { $push: { teamOwners: newUser } },
+        await League.findByIdAndUpdate(leagueId, 
+            { $push: { teamOwners: newUser.id } },
             { useFindAndModify: false, new: true }
         )
-        console.log(data)
-
-        // Add leagueId to user 
-        // Might have to restructor this entire thing...
-        // May or may not return to fix this 
-        // let userData = await User.findByIdAndUpdate(newOwnerUserId,
-        //     { $push: { teamOwners: newUser } },
-        //     { useFindAndModify: false, new: true }
-        // )
-        // userData = cleanUser(userData)
-        // console.log(userData)
-
     } catch(err) {
         console.log(err)
         return res.status(500).send('Server Broken')

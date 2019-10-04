@@ -164,14 +164,14 @@ export const loadUsersLeagues = ({ userToken }) => async dispatch => {
 }
 
 // Create a new Fantasy Team
-export const createFantasyTeam = ({ teamName, leagueId, teamOwner, userToken }) => async dispatch => {
+export const createFantasyTeam = ({ teamName, leagueId, teamOwner, userToken, isManager }) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json',
             'AuthToken': userToken
         }
     }
-    const postBody = { teamName, leagueId, teamOwner }
+    const postBody = { teamName, leagueId, teamOwner, isManager }
     try {
         const createdTeam = await axios.post('/api/fantasyTeams/createTeam', postBody, config)
         console.log(createdTeam)
