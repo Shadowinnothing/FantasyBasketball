@@ -4,3 +4,4 @@ config/dev.js
 .vscode
 playground.js
 ./client/yarn.lock
+chromedriver
