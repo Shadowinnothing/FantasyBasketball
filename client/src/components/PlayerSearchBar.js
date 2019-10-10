@@ -16,7 +16,8 @@ class PlayerSearchBar extends Component {
 
     getTeamName = _teamId => {
         const player = this.props.NBATeams.find(el => el.teamId === parseInt(_teamId))
-        return typeof player.name === 'string' ? player.name : 'TEAM NAME NOT FOUND'
+        if(player !== undefined)
+            return typeof player.name === 'string' ? player.name : 'TEAM NAME NOT FOUND'
     }
 
     onSubmit = async term => {

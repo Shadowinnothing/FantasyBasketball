@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import LeagueChat from './LeagueChat'
+
 import axios from 'axios'
 
 const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, usersFriends }) => {
@@ -70,7 +72,8 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
                     const data = await axios.post('/api/league/addTeamOwner', {
                         "leagueId": match.params.leagueId,
                         "newOwnerUserId": friend._id,
-                        "leagueManagerId": userId
+                        "leagueManagerId": userId,
+                        "leagueManagerTeamId": userTeam._id
                     }, config)
 
                     console.log(data)
@@ -104,6 +107,10 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
                 <h4>League Type: { league.leagueType }</h4>
 
                 { renderLeagueManagerOptions() }
+
+                <LeagueChat
+                    currentLeague={ league }
+                />
 
                 { renderUserTeam() }
             </div>

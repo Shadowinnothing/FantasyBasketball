@@ -6,6 +6,7 @@ const leagueAuth = require('../../middleware/leagueAuth')
 const cleanUser = require( '../../middleware/cleanUser')
 
 const League = require('../../models/League')
+const LeagueMessage = require('../../models/LeagueMessage')
 const User = require('../../models/User')
 
 // @route   POST /api/league/create
@@ -168,6 +169,40 @@ router.get('/getManagedTeams', auth, async (req, res) => {
     console.log(req)
     //let allLeagues = League.find()
     res.send({ msg: 'yeet' })
+})
+
+// @route   GET /api/league/getAllMessages/:leagueId
+// @desc    Return all messages related to a league
+// @access  Private
+router.get('/getAllMessages/:leagueId', auth, async (req, res) => {
+    // get every LeagueMessage with the same leagueId as this
+    const allMessages = await LeagueMessage.find({ leagueId: req.params.leagueId })
+    res.send({ allMessages })
+})
+
+// @route   POST /api/league/newMessage
+// @desc    Send a new message to the database
+// @access  Private
+router.post('/newMessage', auth, [
+    check('leagueId', 'leagueId is required').exists(),
+    check('messageText', 'messageText is required').exists(),
+    check('userName', 'userName is required').exists()
+], async (req, res) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() })
+    }
+
+    const { leagueId, messageText, userName } = req.body
+
+    // save a new message to the database
+    const newMessage = await new LeagueMessage({
+        leagueId, messageText, userName
+    })
+
+    await newMessage.save()
+
+    res.send( newMessage )
 })
 
 module.exports = router;

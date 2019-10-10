@@ -16,7 +16,8 @@ import {
     CREATE_NEW_FANTASY_TEAM,
     LOAD_USERS_FANTASY_TEAMS,
     LOAD_USERS_MANAGED_LEAGUES,
-    ADD_NEW_LEAGUE_MANAGER
+    ADD_NEW_LEAGUE_MANAGER,
+    LOAD_LEAGUE_MESSAGES
 } from '../actions/types' 
 
 import setAuthToken from '../../utils/setAuthToken'
@@ -154,9 +155,6 @@ export const loadUsersLeagues = ({ userToken }) => async dispatch => {
         const teams = await axios.get('/api/league/getAllUserLeagues', config)
         const _teams = teams.data.usersLeagues
         dispatch({ type: LOAD_USERS_LEAGUES, payload: _teams })
-
-        // get list of all user managed leagues
-        //dispatch({ type: LOAD_USERS_MANAGED_LEAGUES, payload: null })
     } catch(err) {
         return err
     }
@@ -195,6 +193,23 @@ export const loadUsersFantasyTeams = ({ userToken }) => async dispatch => {
     try {
         const teams = await axios.get('/api/fantasyTeams/getAllUserTeams', config)
         dispatch({ type: LOAD_USERS_FANTASY_TEAMS, payload: teams.data.allTeams })
+    } catch(err) {
+        return err
+    }
+}
+
+// Fill fantasy league messages
+export const loadLeagueMessages = ({ userToken, leagueId }) => async dispatch => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'AuthToken': userToken
+        }
+    }
+
+    try {
+        const messages = await axios.get(`/api/league/getAllMessages/${leagueId}`, config)
+        dispatch({ type: LOAD_LEAGUE_MESSAGES, payload: messages.data.allMessages })
     } catch(err) {
         return err
     }

@@ -17,6 +17,7 @@ router.get('/allPlayers', async (req, res) => {
 router.get('/search/:term', async (req, res) => {
   console.log(req.params.term)
   let relatedPlayersLastName = await nba.get(`/players/lastName/${ req.params.term }`)
+    .catch(err => console.log(err))
   relatedPlayersLastName = relatedPlayersLastName.data.api.players
   
   let relatedPlayersFirstName = await nba.get(`/players/firstName/${ req.params.term }`)

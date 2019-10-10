@@ -38,3 +38,5 @@ const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
     console.log(`[${date.format(new Date(), 'hh:mm:ss')}] Node.js Server running on port: ${PORT}`)
 })
+
+module.exports = { app }

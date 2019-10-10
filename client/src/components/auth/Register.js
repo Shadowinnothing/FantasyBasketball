@@ -43,7 +43,7 @@ const Register = ({ register, isAuthenticated }) => {
                 <form className="form" action="create-profile.html" onSubmit={ e => onSubmit(e) } >
 
                     <div className="form-group">
-                    <input type="text" placeholder="Name" name="name" required value={ name } onChange={ e => onChange(e) } />
+                        <input id="nameInputBox" type="text" placeholder="Name" name="name" required value={ name } onChange={ e => onChange(e) } />
                     </div>
 
                     <div className="form-group">
@@ -87,7 +87,7 @@ const Register = ({ register, isAuthenticated }) => {
                     />
                     </div>
 
-                    <input type="submit" className="btn btn-primary" value="Register" />
+                    <input id="registerButton" type="submit" className="btn btn-primary" value="Register" />
                 </form>
                 <p className="my-1">
                     Already have an account? <Link to="/login">Sign In</Link>
