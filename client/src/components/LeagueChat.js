@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
+import Moment from 'react-moment'
 import { connect } from 'react-redux'
 
-import { loadLeagueMessages } from '../redux/actions'
+import { loadLeagueMessages, sendLeagueMessage } from '../redux/actions'
 
 const LeagueChatBody = styled.div`
     border-color: black;
@@ -14,16 +15,20 @@ const LeagueChatBody = styled.div`
 const renderLeagueMessages = ( leagueMessages ) => {
     return leagueMessages.map(message => {
         return (
-            <div className="ui segment" key={message.timeMessageSent} >
-                <h4>{ message.userName }</h4>
-                <p>{ message.messageText }</p>
-                <p>{ message.timeMessageSent }</p>
+            <div className="ui segment" key={message.messageText} >
+                <p>{ message.userName } (<Moment format="HH:mm">{ message.timeMessageSent }</Moment>): { message.messageText }</p>
             </div>
         )
     })
 }
 
-const LeagueChat = ({ userToken, currentLeague, loadLeagueMessages, allLeagueMessages }) => {
+const getLeagueMessages = async ({ userToken, leagueId, loadLeagueMessages }) => {
+    return await loadLeagueMessages({ userToken, leagueId })
+}
+
+const LeagueChat = ({ userToken, currentLeague, loadLeagueMessages, allLeagueMessages, sendLeagueMessage, userName }) => {
+
+    const [ messageToSend, setMessageToSend ] = useState()
 
     useEffect(() => {
         loadLeagueMessages({ userToken, leagueId: currentLeague._id })
@@ -35,10 +40,25 @@ const LeagueChat = ({ userToken, currentLeague, loadLeagueMessages, allLeagueMes
                 { allLeagueMessages ? renderLeagueMessages(allLeagueMessages) : '' }
             </div>
 
-            <div className="ui input">
-                <input type="text" placeholder="Search..." />
-            </div>
-            
+            <form onSubmit={ e => {
+                e.preventDefault()
+                sendLeagueMessage({ messageText: messageToSend, leagueId: currentLeague._id, userName })
+            }}>
+                <div>
+                    <input
+                        type="message"
+                        name="message"
+                        placeholder="Send Message..."
+                        value={ messageToSend }
+                        onChange={ e => setMessageToSend(e.target.value)}
+                    />
+                </div>
+            </form>
+            <button
+                onClick={ () => getLeagueMessages({ userToken, leagueId: currentLeague._id, loadLeagueMessages }) }
+            >
+                Press to Load Messages
+            </button>
         </LeagueChatBody>
     )
 }
@@ -46,8 +66,9 @@ const LeagueChat = ({ userToken, currentLeague, loadLeagueMessages, allLeagueMes
 const mapStateToProps = state => {
     return {
         userToken: state.Auth.token,
+        userName: state.Auth.user.screenName,
         allLeagueMessages: state.Leagues.leagueMessages
     }
 }
 
-export default connect(mapStateToProps, { loadLeagueMessages })(LeagueChat)
+export default connect(mapStateToProps, { loadLeagueMessages, sendLeagueMessage })(LeagueChat)

@@ -15,9 +15,8 @@ import {
     LOAD_USERS_LEAGUES,
     CREATE_NEW_FANTASY_TEAM,
     LOAD_USERS_FANTASY_TEAMS,
-    LOAD_USERS_MANAGED_LEAGUES,
-    ADD_NEW_LEAGUE_MANAGER,
-    LOAD_LEAGUE_MESSAGES
+    LOAD_LEAGUE_MESSAGES,
+    SEND_LEAGUE_MESSAGE
 } from '../actions/types' 
 
 import setAuthToken from '../../utils/setAuthToken'
@@ -172,7 +171,6 @@ export const createFantasyTeam = ({ teamName, leagueId, teamOwner, userToken, is
     const postBody = { teamName, leagueId, teamOwner, isManager }
     try {
         const createdTeam = await axios.post('/api/fantasyTeams/createTeam', postBody, config)
-        console.log(createdTeam)
         dispatch({ type: CREATE_NEW_FANTASY_TEAM, payload: createdTeam.data.newTeam })
         return createdTeam.data.newTeam
     } catch(err) {
@@ -210,6 +208,27 @@ export const loadLeagueMessages = ({ userToken, leagueId }) => async dispatch =>
     try {
         const messages = await axios.get(`/api/league/getAllMessages/${leagueId}`, config)
         dispatch({ type: LOAD_LEAGUE_MESSAGES, payload: messages.data.allMessages })
+        return messages.data.allMessages
+    } catch(err) {
+        return err
+    }
+}
+
+// Send a message to the league
+export const sendLeagueMessage = ({ userToken, messageText, leagueId, userName }) => async dispatch => {
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'AuthToken': userToken
+        }
+    }
+
+    const postBody = { messageText, leagueId, userName }
+
+    try {
+        const newMessage = await axios.post(`/api/league/newMessage`, postBody, config)
+        dispatch({ type: SEND_LEAGUE_MESSAGE, payload: newMessage.data })
     } catch(err) {
         return err
     }

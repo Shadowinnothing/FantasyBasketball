@@ -56,7 +56,6 @@ class PlayerSearchBar extends Component {
     onFormSubmit = e => {
         e.preventDefault()
         
-        // TODO: FIX THIS SO IT DOESN'T HIT API WITH SAME CALL
         if (this.state.term !== '' && e.target.value !== this.state.term) {
             this.onSubmit(this.state.term)
         }

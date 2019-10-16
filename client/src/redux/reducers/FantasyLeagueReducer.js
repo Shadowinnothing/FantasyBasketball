@@ -2,7 +2,8 @@ import {
     CREATE_NEW_LEAGUE,
     CLEAR_LEAGUES,
     LOAD_USERS_LEAGUES,
-    LOAD_LEAGUE_MESSAGES
+    LOAD_LEAGUE_MESSAGES,
+    SEND_LEAGUE_MESSAGE
 } from '../actions/types'
 
 const INITIAL_STATE = {
@@ -29,6 +30,11 @@ const FantasyLeagueReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 leagueMessages: [ ...action.payload ]
+            }
+        case SEND_LEAGUE_MESSAGE:
+            return {
+                ...state,
+                leagueMessages: [ ...state.leagueMessages, ...action.payload ]
             }
         default:
             return state
