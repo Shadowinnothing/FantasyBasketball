@@ -17,7 +17,7 @@ const LeagueMessageSchema = new Schema({
     },
     experationTime: {
         type: Date,
-        default: Date.now() + (24 * 60 * 60 * 1000)
+        default: Date.now() + (60 * 60 * 1000)
     },
     leagueId: {
         type: String,

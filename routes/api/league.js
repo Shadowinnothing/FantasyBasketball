@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { check, validationResult } = require('express-validator')
+const moment = require('moment')
 
 const auth = require( '../../middleware/auth')
 const leagueAuth = require('../../middleware/leagueAuth')
@@ -175,8 +176,25 @@ router.get('/getManagedTeams', auth, async (req, res) => {
 // @desc    Return all messages related to a league
 // @access  Private
 router.get('/getAllMessages/:leagueId', auth, async (req, res) => {
-    // get every LeagueMessage with the same leagueId as this
+    // get every LeagueMessage with the param leagueId
     const allMessages = await LeagueMessage.find({ leagueId: req.params.leagueId })
+
+    // if the message is set to expire, delete it
+    // if it's not, return the message
+    allMessages.map(async message => {
+        // convert db timestamp so it's comparable to Date.now()
+        return new Promise(async (resolve, reject) => {
+            try {
+                if(moment(message.experationTime).unix() * 1000 < Date.now()){
+                    await LeagueMessage.findByIdAndDelete(message._id)
+                    return
+                }
+                resolve(message)
+            } catch(err) {
+                reject(err)
+            }
+        })
+    })
     res.send({ allMessages })
 })
 
