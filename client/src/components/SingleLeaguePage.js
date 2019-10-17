@@ -10,6 +10,7 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
 
     const [ league, setLeague ] = useState()
     const [ userTeam, setUserTeam ] = useState()
+    const [ friendsList, setFriendsList ] = useState()
     const [ userIsLeagueManager, setUserIsLeagueManager ] = useState(false)
 
     // save league data to state
@@ -30,6 +31,11 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
             setUserIsLeagueManager(userTeam.isManager)
         }
     }, [userTeam])
+
+    useEffect(() => {
+        loadFriends()
+            .then(res => setFriendsList(res))
+    }, [ usersFriends ])
 
     // render different instances of the league route helper
     const displayTeamData = (route, headerText, buttonText) => {
@@ -57,32 +63,46 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
         return displayTeamData(redirectRoute, "No team? Create one now!", "Create Team")
     }
 
+    const loadFriends = async () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const friendsData = await axios.get(`/api/users/friends/getAll/${ userId }`)
+                resolve(friendsData.data.allFriendsData)
+            } catch(err) {
+                console.log(err)
+                reject(err)
+            }
+        })
+    }
+
     // returns jsx of an array of friend list items
     const renderFriendList = () => {
-        return usersFriends.map( friend => 
-            <li 
-                onClick={ async () => {
-
-                    // need to move this to the backend
-
-                    const config = {
-                        headers: { "authtoken" : userToken }
-                    }
-
-                    const data = await axios.post('/api/league/addTeamOwner', {
-                        "leagueId": match.params.leagueId,
-                        "newOwnerUserId": friend._id,
-                        "leagueManagerId": userId,
-                        "leagueManagerTeamId": userTeam._id
-                    }, config)
-
-                    console.log(data)
-                }}
-                key={ friend.name }
-            >
-                { friend.name }
-            </li>
-        )
+        if(friendsList !== undefined && friendsList.length){
+            return friendsList.map( friend => 
+                <li 
+                    onClick={ async () => {
+    
+                        // need to move this to the backend
+    
+                        const config = {
+                            headers: { "authtoken" : userToken }
+                        }
+    
+                        const data = await axios.post('/api/league/addTeamOwner', {
+                            "leagueId": match.params.leagueId,
+                            "newOwnerUserId": friend._id,
+                            "leagueManagerId": userId,
+                            "leagueManagerTeamId": userTeam._id
+                        }, config)
+    
+                        console.log(data)
+                    }}
+                    key={ friend.name }
+                >
+                    { friend.name }
+                </li>
+            )
+        } 
     }
 
     // If the user is a league manager we're going to display leagueManager options

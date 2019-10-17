@@ -32,8 +32,22 @@ const SocialHomePage = ({ isAuthenticated, userToken, usersFriends, userId }) =>
     const [ friendsList, setFriendsList ] = useState()
 
     useEffect(() => {
-        setFriendsList(usersFriends)
+        loadFriends()
+            .then(res => setFriendsList(res))
     }, [ usersFriends ])
+
+    // grab user's friends data from the db
+    const loadFriends = async () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const friendsData = await axios.get(`/api/users/friends/getAll/${ userId }`)
+                resolve(friendsData.data.allFriendsData)
+            } catch(err) {
+                console.log(err)
+                reject(err)
+            }
+        })
+    }
 
     const onSubmit = async e => {
         e.preventDefault()
@@ -61,7 +75,7 @@ const SocialHomePage = ({ isAuthenticated, userToken, usersFriends, userId }) =>
         })
     }
 
-    // Redirect if logged in
+    // Redirect if not logged in
     if(!isAuthenticated){
         return <Redirect to="/" />
     }
@@ -82,7 +96,11 @@ const SocialHomePage = ({ isAuthenticated, userToken, usersFriends, userId }) =>
     }
 
     const renderFriendsList = () => {
-        return friendsList.map( friend => <li key={ friend.name }>{ friend.name }</li> )
+        if(friendsList.length){
+            return friendsList.map( friend => {
+                return <li key={ friend.name }>{ friend.name }</li>
+            })
+        }
     }
 
     return (
@@ -90,7 +108,7 @@ const SocialHomePage = ({ isAuthenticated, userToken, usersFriends, userId }) =>
             <div>
                 Friends List
                 <FriendsList>
-                    { friendsList ? renderFriendsList() : 'No Friends' }
+                    { friendsList !== undefined ? renderFriendsList() : 'No Friends' }
                 </FriendsList>
             </div>
 

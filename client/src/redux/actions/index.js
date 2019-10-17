@@ -134,6 +134,12 @@ export const createNewLeague = ({ leagueName, leagueType, userToken, userId }) =
             teamOwner: userId,
             isManager: true
         }, config)
+
+        // Grab all of the user's fantasyTeams after the new one has been created
+        // There was a bug where a user did not appear to be a manager immedietaly after
+        // creating a league. These two lines fix that issue
+        const teams = await axios.get('/api/fantasyTeams/getAllUserTeams', config)
+        dispatch({ type: LOAD_USERS_FANTASY_TEAMS, payload: teams.data.allTeams })
         
         return newLeague.data.league
     } catch(err) {

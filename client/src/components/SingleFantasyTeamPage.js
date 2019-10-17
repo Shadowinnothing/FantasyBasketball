@@ -33,5 +33,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(SingleFantasyTeamPage)
-
-//http://localhost:3000/leagues/5d67584e1b54e01d537f0115/teams/5d6759655395572798ce52f8

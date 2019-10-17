@@ -8,8 +8,7 @@ const CreateLeaguePage = ({ isAuthenticated, userAuth, createNewLeague, history,
 
     const [formData, setFormData] = useState({
         leagueName: '',
-        leagueType: '',
-        //leagueManagers: '' // <- send in current userId
+        leagueType: ''
     })
 
     const { leagueName, leagueType  } = formData

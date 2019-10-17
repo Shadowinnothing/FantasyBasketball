@@ -104,41 +104,79 @@ router.post('/search', auth, [
 // @route   POST /api/users/friends/add
 // @desc    Add a friend to the current user
 // @access  Private
-router.post('/friends/add', auth, async (req, res) => {
+router.post('/friends/add', auth, [
+    check('friendBeingAddedId', 'friendBeingAddedId is required').exists(),
+    check('userAddingFriendId', 'userAddingFriendId is required').exists(),
+], async (req, res) => {
+
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        return res.status(400).json({ errors: errors.array() })
+    }
+
     // these names are stupid and I hate them but I can't think of anything better atm
     // They explain themselves sure but blegh
     const { friendBeingAddedId, userAddingFriendId } = req.body
 
-    if(!friendBeingAddedId){
-        return res.status(404).send({ msg: 'newOwnerUserId Not Found' })
+    // find users, if userAddingFriendId exists in new freind friends list do not add as friend
+    // if they dont exist, return a 404
+    const friendBeingAdded = await User.findById(friendBeingAddedId)
+    const userAddingFriend = await User.findById(userAddingFriendId)
+
+    if(friendBeingAdded.friends.includes(userAddingFriendId)) {
+        return res.status(401).send({ error: 'users are already friends' })
     }
 
-    // find user and remove sensitive data
-    let friendBeingAdded = await User.findById(friendBeingAddedId)
-    friendBeingAdded = cleanUser(friendBeingAdded)
+    if(!friendBeingAddedId){
+        return res.status(404).send({ error: 'friendBeingAdded Not Found' })
+    }
+
+    if(!userAddingFriend){
+        return res.status(404).send({ error: 'userAddingFriend Not Found' })
+    }
 
     // add user to user's friend list
     try {
         // add new friend to current user
-        let newUserData = await User.findByIdAndUpdate(userAddingFriendId, 
-            { $push: { friends: friendBeingAdded } },
+        await User.findByIdAndUpdate(userAddingFriendId, 
+            { $push: { friends: friendBeingAddedId } },
             { useFindAndModify: false, new: true }
         )
-        let newFriendsList = newUserData.friends
-        newUserData = cleanUser(newUserData)
-        newUserData.friends = newFriendsList
 
         // add current user to new friends friend's list
         await User.findByIdAndUpdate(friendBeingAddedId, 
-            { $push: { friends: newUserData } },
+            { $push: { friends: userAddingFriendId } },
             { useFindAndModify: false, new: true }
         )
 
-        res.status(200).send({ newUserData })
+        res.status(200).send({ message: `User ${ userAddingFriendId } added user ${ friendBeingAddedId } as a friend` })
     } catch(err) {
         console.log(err)
         return res.status(500).send('Server Broken')
     }
+})
+
+// @route   GET /api/users/friends/getAll/:id
+// @desc    Return all friends data from a user's friends list
+// @access  Private
+router.get(`/friends/getAll/:id`, auth, async (req, res) => {
+    // pull user sent in from request
+    const user = await User.findById(req.params.id)
+    
+    // grab and return all friends data
+    const allFriendsData = await Promise.all(user.friends.map(async id => {
+        try {
+            let yee = await User.findById(id)
+            yee = cleanUser(yee)
+            return yee
+        } catch(err) {
+            console.log(err)
+            return err
+        }
+        
+    }))
+    
+    res.status(200).send({ allFriendsData })
 })
 
 module.exports = router
