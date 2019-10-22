@@ -73,6 +73,8 @@ const SocialHomePage = ({ isAuthenticated, userToken, usersFriends, userId }) =>
             "userAddingFriendId": userId,
 	        "friendBeingAddedId": newFriendUserId
         })
+        loadFriends()
+            .then(res => setFriendsList(res))
     }
 
     // Redirect if not logged in

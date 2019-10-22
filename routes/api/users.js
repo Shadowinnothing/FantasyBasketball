@@ -53,6 +53,7 @@ router.post('/', [
         // jwt for saved user
         const payload = {
             user: {
+                ...user._doc,
                 id: user.id
             }
         }

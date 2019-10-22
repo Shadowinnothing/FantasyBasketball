@@ -1,96 +1,70 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 import PlayerCard from './PlayerCard'
 
-import axios from 'axios'
+const Table = styled.thead`
+    overflow-y: scroll;
+    height: 800px;
+    display: block;
+    width: 400px;
+`
 
-class PlayerSearchBar extends Component {
+const PlayerSearchBar = ({ NBAPlayers, NBATeams }) => {
 
-    state = {
-        noPlayers: true,
-        term: '',
-        players: [],
-        tempPlayers: []
-    }
+    const [ searchFilter, setSearchFilter ] = useState('')
+    const [ allNBAPlayerCards, setAllNBAPlayerCards ] = useState([])
+    const [ filteredNBAPlayerCards, setFilteredNBAPlayerCards ] = useState([])
 
-    getTeamName = _teamId => {
-        const player = this.props.NBATeams.find(el => el.teamId === parseInt(_teamId))
-        if(player !== undefined)
-            return typeof player.name === 'string' ? player.name : 'TEAM NAME NOT FOUND'
-    }
-
-    onSubmit = async term => {
-        const res = await axios.get(`/stats/players/search/${term}`)
-        const players = res.data.relatedPlayers
-
-        if(!players.length)
-            window.alert(`No Players named '${ term }' found`)
-        
-        // get rid of players not on an nba team
-        let filteredPlayers = players.filter(player => typeof player.teamId === 'string' )
-
-        // Add the team Name to filteredPlayers
-        filteredPlayers = filteredPlayers.map(player =>  {
-            if(typeof player.teamId === 'string')
-                return {
-                    ...player,
-                    teamName: this.getTeamName( player.teamId )
-                }
-            // extra line of defense
-            else return {
-                ...player,
-                teamName: 'Team Name Not Found'
-            }
-        })
-        
-        if(!filteredPlayers.length){
-            this.setState({ players: [], noPlayers: true })
-        } else {
-            this.setState({ players: filteredPlayers, noPlayers: false })
+    useEffect(() => {
+        if(NBAPlayers !== undefined && NBAPlayers.length){
+            setAllNBAPlayerCards( NBAPlayers.map(player => <PlayerCard key={player.playerId} player={player} />) )
         }
-    }
+    }, [ NBAPlayers ])
 
-    mapPlayers = () => this.state.players.map(player => <PlayerCard key={player.playerId} player={player} />)
+    // filter out players according to the player's first or last name
+    useEffect(() => {
+        setFilteredNBAPlayerCards( NBAPlayers.map(player => {
+            if(player.firstName.toLowerCase().includes(searchFilter.toLocaleLowerCase()) || player.lastName.toLowerCase().includes(searchFilter.toLocaleLowerCase())){
+                return <PlayerCard key={player.playerId} player={player} />
+            } else return ''
+        }))
+    }, [ searchFilter ])
 
-    onFormSubmit = e => {
-        e.preventDefault()
-        
-        if (this.state.term !== '' && e.target.value !== this.state.term) {
-            this.onSubmit(this.state.term)
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <div className="ui segment">
-                    <form onSubmit={ e => this.onFormSubmit(e) } className="ui form">
-                        <div className="field">
-                            <label>Player Search by Name</label>
-                            <input 
-                                type="text"
-                                value={ this.state.term }
-                                onChange={ e => this.setState({ term: e.target.value }) }
-                            />
-                        </div>
-                    </form>
-                    <br />
-                    <button onClick={ () => this.setState({ term: '' }) }>Clear</button>
+    return (
+        <div>
+            <div className="ui segment">
+                <div className="field">
+                    <label>Player Search by Name</label>
+                    <input 
+                        type="text"
+                        value={ searchFilter }
+                        onChange={ e => setSearchFilter( e.target.value ) }
+                    />
                 </div>
-                <div className="ui cards" >
-                    { this.state.noPlayers ? <h2>No Players Found</h2> : this.mapPlayers() }
-                </div>
-                { this.state.tempPlayers.map(player => <h1 key={player.playerId}>{ player.lastName }</h1>) }
+
+                <br />
+                <button onClick={ () => setSearchFilter('') }>Clear</button>
             </div>
-        )
-    }
+
+            <Table className="ui very compact table">
+                <tr>
+                    <td>Name</td>
+                    <td>Team</td>
+                    <td>Position</td>
+                </tr>
+                { filteredNBAPlayerCards.length ? filteredNBAPlayerCards : allNBAPlayerCards }
+            </Table>
+        </div>
+    )
+
 }
 
 const mapStateToProps = state => {
     return {
         NBATeams: state.NBATeams.allNBATeams,   // <- all NBA Teams
-        NBAPlayers: state.NBAPlayers            // <- all NBA Players, this is a promise and super stupid and ugly code
+        NBAPlayers: state.NBAPlayers.allPlayers // <- all NBA Players
     }
 }
 

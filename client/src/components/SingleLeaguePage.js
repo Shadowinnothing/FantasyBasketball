@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 import LeagueChat from './LeagueChat'
 
 import axios from 'axios'
 
-const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, usersFriends }) => {
+const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, usersFriends, isAuthenticated }) => {
 
     const [ league, setLeague ] = useState()
     const [ userTeam, setUserTeam ] = useState()
@@ -120,6 +121,11 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
             )
     }
 
+    // Redirect if not logged in
+    if(!isAuthenticated){
+        return <Redirect to="/" />
+    }
+
     if(league) {
         return (
             <div>
@@ -145,7 +151,8 @@ const mapStateToProps = state => {
         usersLeagues: state.Leagues.usersLeagues,
         usersTeams: state.FantasyTeams.usersTeams,
         usersFriends: state.Auth.user.friends,
-        userToken: state.Auth.token
+        userToken: state.Auth.token,
+        isAuthenticated: state.Auth.isAuthenticated
     }
 }
 

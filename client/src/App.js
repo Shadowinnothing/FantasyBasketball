@@ -7,6 +7,7 @@ import setAuthToken from './utils/setAuthToken';
 
 import CreateLeaguePage from './components/CreateLeaguePage'
 import CreateTeamPage from './components/CreateTeamPage'
+import DraftBoard from './components/DraftBoard'
 import Header from './components/Header'
 import Home from './components/Home'
 import LeaguesPage from './components/LeaguesPage'
@@ -43,16 +44,22 @@ const App = ({ userToken, loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersL
         <Header />
         <Switch>
           <Route exact path='/' component={ Home } />
-          <Route path="/playerSearch" component={ PlayerSearchBar }/>
-          <Route path="/teams/:teamId/:teamName" component={ TeamPage } />
+
+          <Route path="/social" exact component={ SocialHomePage } />
+
           <Route path="/register" component={ Register } />
           <Route path="/login" component={ Login } />
+
+          <Route path="/teams/:teamId/:teamName" component={ TeamPage } />
+        
           <Route path="/createLeague" component={ CreateLeaguePage } />
+
           <Route path="/leagues" exact component={ LeaguesPage } />
           <Route path="/leagues/:leagueId" exact component={ SingleLeaguePage } />
           <Route path="/leagues/:leagueId/createTeam" exact component={ CreateTeamPage } />
+          <Route path="/leagues/:leagueId/draft" exact component={ DraftBoard } />
           <Route path="/leagues/:leagueId/teams/:teamId" exact component={ SingleFantasyTeamPage } />
-          <Route path="/social" exact component={ SocialHomePage } />
+          
           <Route component={ PageNotFound } />
         </Switch>
     </BrowserRouter>
