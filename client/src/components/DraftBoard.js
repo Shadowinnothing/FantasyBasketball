@@ -8,10 +8,11 @@ const PlayerSearchSection = styled.div`
     width: 400px;
 `
 
-const DraftBoard = props => {
+const DraftBoard = ({ match }) => {
+    //console.log(match)
     return (
         <PlayerSearchSection>
-            <PlayerSearchBar />
+            <PlayerSearchBar match={ match } />
         </PlayerSearchSection>
     )
 }

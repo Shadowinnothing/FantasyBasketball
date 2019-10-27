@@ -16,7 +16,8 @@ import {
     CREATE_NEW_FANTASY_TEAM,
     LOAD_USERS_FANTASY_TEAMS,
     LOAD_LEAGUE_MESSAGES,
-    SEND_LEAGUE_MESSAGE
+    SEND_LEAGUE_MESSAGE,
+    SIGN_NEW_CONTRACT
 } from '../actions/types' 
 
 import setAuthToken from '../../utils/setAuthToken'
@@ -235,6 +236,32 @@ export const sendLeagueMessage = ({ userToken, messageText, leagueId, userName }
     try {
         const newMessage = await axios.post(`/api/league/newMessage`, postBody, config)
         dispatch({ type: SEND_LEAGUE_MESSAGE, payload: newMessage.data })
+    } catch(err) {
+        return err
+    }
+}
+
+// Sign a new contract to a player
+// export const signNewContract = ({ 
+//     experationDate, contractSalary, freeAgent,
+//     leagueId, teamOwnerId, playerId,
+//     teamId, lastName, firstName, userToken
+// }) 
+export const signNewContract = contractObj => async dispatch => {
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'AuthToken': contractObj.userToken
+        }
+    }
+
+    const postBody = { ...contractObj }
+
+    try {
+        const res = await axios.post(`/api/contracts/sign`, postBody, config)
+        console.log(res.data)
+        //dispatch({ type: SIGN_NEW_CONTRACT, payload: newMessage.data })
     } catch(err) {
         return err
     }

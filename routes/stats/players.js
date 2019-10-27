@@ -51,11 +51,12 @@ router.get('/allPlayers', async (req, res) => {
 		return {
 			...player,
 			teamData: {
-                city: playersTeam.city,
-                fullName: playersTeam.fullName,
-                nickName: playersTeam.nickname,
-                shortName: playersTeam.shortName
-			}
+        city: playersTeam.city,
+        fullName: playersTeam.fullName,
+        nickName: playersTeam.nickname,
+        shortName: playersTeam.shortName
+      },
+      playerPrice: '5000'
 		}
     })
     

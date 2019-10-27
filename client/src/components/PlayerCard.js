@@ -1,5 +1,9 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
+import moment from 'moment'
+
+import { signNewContract } from '../redux/actions'
 
 //import StyledPlayerCard from '../styles/PlayerCard_style'
 
@@ -10,12 +14,26 @@ const StyledPlayerCard = styled.div`
     width: 400px;
 `
 
-const PlayerCard = ({ player }) => {
+const PlayerCard = ({ player, signNewContract, leagueId, team, usersTeams }) => {
+    console.log(team)
+
     if(player.leagues.standard) {
         return (
             <StyledPlayerCard
                 className="card"
-                onClick={ () => console.log(player) } 
+                onClick={ () => signNewContract({
+                    experationDate: moment().endOf('day'),
+                    contractSalary: player.playerPrice,
+                    freeAgent: "UFA",
+                    
+                    leagueId: leagueId,
+                    teamOwnerId: team._id,
+                    
+                    playerId: player.playerId,
+                    teamId: player.teamId,
+                    lastName: player.lastName,
+                    firstName: player.firstName
+                })} 
             >
                 <tr>
                     <td data-label="Name">{ player.firstName } { player.lastName }</td>
@@ -30,4 +48,13 @@ const PlayerCard = ({ player }) => {
     
 }
 
-export default PlayerCard
+const mapStateToProps = state => {
+
+    const usersTeams = state.FantasyTeams.usersTeams ? state.FantasyTeams.usersTeams : '' 
+
+    return {
+        usersTeams
+    }
+}
+
+export default connect(mapStateToProps, { signNewContract })(PlayerCard)

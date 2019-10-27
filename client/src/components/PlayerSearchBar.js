@@ -11,15 +11,20 @@ const Table = styled.thead`
     width: 400px;
 `
 
-const PlayerSearchBar = ({ NBAPlayers, NBATeams }) => {
-
+const PlayerSearchBar = ({ NBAPlayers, NBATeams, match, usersTeams }) => {
     const [ searchFilter, setSearchFilter ] = useState('')
     const [ allNBAPlayerCards, setAllNBAPlayerCards ] = useState([])
     const [ filteredNBAPlayerCards, setFilteredNBAPlayerCards ] = useState([])
+    const [ currentLeagueId, setCurrentLeagueId ] = useState()
+    const [ currentTeam, setCurrentTeam ] = useState([])
+
+    useEffect(() => {
+        setCurrentLeagueId(match.params.leagueId)
+    }, [ match ])
 
     useEffect(() => {
         if(NBAPlayers !== undefined && NBAPlayers.length){
-            setAllNBAPlayerCards( NBAPlayers.map(player => <PlayerCard key={player.playerId} player={player} />) )
+            setAllNBAPlayerCards( NBAPlayers.map(player => <PlayerCard team={ currentTeam } leagueId={ currentLeagueId } key={player.playerId} player={player} />) )
         }
     }, [ NBAPlayers ])
 
@@ -27,10 +32,17 @@ const PlayerSearchBar = ({ NBAPlayers, NBATeams }) => {
     useEffect(() => {
         setFilteredNBAPlayerCards( NBAPlayers.map(player => {
             if(player.firstName.toLowerCase().includes(searchFilter.toLocaleLowerCase()) || player.lastName.toLowerCase().includes(searchFilter.toLocaleLowerCase())){
-                return <PlayerCard key={player.playerId} player={player} />
+                return <PlayerCard team={ currentTeam } leagueId={ currentLeagueId } key={player.playerId} player={player} />
             } else return ''
         }))
     }, [ searchFilter ])
+
+    useEffect(() => {
+        if(usersTeams.length){
+            const team = usersTeams.find(team => team.leagueId === currentLeagueId)
+            setCurrentTeam(team)
+        }
+    }, [ usersTeams ])
 
     return (
         <div>
@@ -63,6 +75,7 @@ const PlayerSearchBar = ({ NBAPlayers, NBATeams }) => {
 
 const mapStateToProps = state => {
     return {
+        usersTeams: state.FantasyTeams.usersTeams,
         NBATeams: state.NBATeams.allNBATeams,   // <- all NBA Teams
         NBAPlayers: state.NBAPlayers.allPlayers // <- all NBA Players
     }
