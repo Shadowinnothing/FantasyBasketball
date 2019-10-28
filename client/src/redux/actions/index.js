@@ -196,8 +196,20 @@ export const loadUsersFantasyTeams = ({ userToken }) => async dispatch => {
     }
 
     try {
+
+        // get all fantasy teams data
         const teams = await axios.get('/api/fantasyTeams/getAllUserTeams', config)
-        dispatch({ type: LOAD_USERS_FANTASY_TEAMS, payload: teams.data.allTeams })
+        let allTeams = teams.data.allTeams
+
+        // populate players/contracts for every team's roster
+        allTeams = allTeams.map(async team => {
+            let allEnabledContracts = await axios.get(`/api/contracts/enabledContracts/getAllByFantasyTeamId/${team._id}`, config)
+            allEnabledContracts = allEnabledContracts.data.usersContracts
+            team.players = allEnabledContracts
+            
+            return team
+        })
+        Promise.all(allTeams).then(res => dispatch({ type: LOAD_USERS_FANTASY_TEAMS, payload: res }))
     } catch(err) {
         return err
     }

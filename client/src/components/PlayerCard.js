@@ -15,8 +15,6 @@ const StyledPlayerCard = styled.div`
 `
 
 const PlayerCard = ({ player, signNewContract, leagueId, team, usersTeams }) => {
-    console.log(team)
-
     if(player.leagues.standard) {
         return (
             <StyledPlayerCard
@@ -27,7 +25,8 @@ const PlayerCard = ({ player, signNewContract, leagueId, team, usersTeams }) => 
                     freeAgent: "UFA",
                     
                     leagueId: leagueId,
-                    teamOwnerId: team._id,
+                    teamOwnerId: team.teamOwner,
+                    fantasyTeamId: team._id,
                     
                     playerId: player.playerId,
                     teamId: player.teamId,
