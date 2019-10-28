@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+import PlayerContractSigning from './PlayerContractSigning'
 import PlayerSearchBar from './PlayerSearchBar'
 
 const PlayerSearchSection = styled.div`
@@ -9,16 +10,21 @@ const PlayerSearchSection = styled.div`
 `
 
 const DraftBoard = ({ match }) => {
-    //console.log(match)
     return (
-        <PlayerSearchSection>
-            <PlayerSearchBar match={ match } />
-        </PlayerSearchSection>
+        <>
+            <PlayerSearchSection>
+                <PlayerSearchBar match={ match } />
+            </PlayerSearchSection>
+
+            <PlayerContractSigning />
+        </>
     )
 }
 
 const mapStateToProps = state => {
-
+    return {
+        
+    }
 }
 
 export default connect( mapStateToProps, {} )(DraftBoard)

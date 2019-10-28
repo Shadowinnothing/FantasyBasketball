@@ -139,6 +139,8 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
                 />
 
                 { renderUserTeam() }
+                <br />
+                { displayTeamData(`/leagues/${match.params.leagueId}/draft`, "Visit Draft Page", "Draft!") }
             </div>
         )
     }

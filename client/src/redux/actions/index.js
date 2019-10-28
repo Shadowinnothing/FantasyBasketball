@@ -254,11 +254,6 @@ export const sendLeagueMessage = ({ userToken, messageText, leagueId, userName }
 }
 
 // Sign a new contract to a player
-// export const signNewContract = ({ 
-//     experationDate, contractSalary, freeAgent,
-//     leagueId, teamOwnerId, playerId,
-//     teamId, lastName, firstName, userToken
-// }) 
 export const signNewContract = contractObj => async dispatch => {
 
     const config = {
@@ -271,9 +266,21 @@ export const signNewContract = contractObj => async dispatch => {
     const postBody = { ...contractObj }
 
     try {
-        const res = await axios.post(`/api/contracts/sign`, postBody, config)
-        console.log(res.data)
-        //dispatch({ type: SIGN_NEW_CONTRACT, payload: newMessage.data })
+        await axios.post(`/api/contracts/sign`, postBody, config)
+        //dispatch({ type: SIGN_NEW_CONTRACT, payload: res })
+        //get all fantasy teams data
+        const teams = await axios.get('/api/fantasyTeams/getAllUserTeams', config)
+        let allTeams = teams.data.allTeams
+
+        // populate players/contracts for every team's roster
+        allTeams = allTeams.map(async team => {
+            let allEnabledContracts = await axios.get(`/api/contracts/enabledContracts/getAllByFantasyTeamId/${team._id}`, config)
+            allEnabledContracts = allEnabledContracts.data.usersContracts
+            team.players = allEnabledContracts
+            
+            return team
+        })
+        Promise.all(allTeams).then(res => dispatch({ type: SIGN_NEW_CONTRACT, payload: res }))
     } catch(err) {
         return err
     }
