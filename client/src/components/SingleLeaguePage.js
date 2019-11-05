@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 
 import LeagueChat from './LeagueChat'
+import ManagersPage from './ManagersPage'
 
 import axios from 'axios'
 
@@ -39,6 +40,8 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
     }, [ usersFriends ])
 
     // render different instances of the league route helper
+    // Honestly I don't remember why this is called displayTeamData...
+    // I use this for everything except displaying team data
     const displayTeamData = (route, headerText, buttonText) => {
         return (
             <div>
@@ -76,44 +79,18 @@ const SingleLeaguePage = ({ userId, userToken, match, usersLeagues, usersTeams, 
         })
     }
 
-    // returns jsx of an array of friend list items
-    const renderFriendList = () => {
-        if(friendsList !== undefined && friendsList.length){
-            return friendsList.map( friend => 
-                <li 
-                    onClick={ async () => {
-    
-                        // need to move this to the backend
-    
-                        const config = {
-                            headers: { "authtoken" : userToken }
-                        }
-    
-                        const data = await axios.post('/api/league/addTeamOwner', {
-                            "leagueId": match.params.leagueId,
-                            "newOwnerUserId": friend._id,
-                            "leagueManagerId": userId,
-                            "leagueManagerTeamId": userTeam._id
-                        }, config)
-    
-                        console.log(data)
-                    }}
-                    key={ friend.name }
-                >
-                    { friend.name }
-                </li>
-            )
-        } 
-    }
-
     // If the user is a league manager we're going to display leagueManager options
     // If not we don't need to print anything
     const renderLeagueManagerOptions = () => {
         return userIsLeagueManager 
             ? (
                 <div>
-                    <h1>You are a manager</h1>
-                    <ul>{ renderFriendList() }</ul>
+                    <h1></h1>
+                    { displayTeamData(
+                        `/leagues/${match.params.leagueId}/ManagersPage`,
+                        'You are a manager, click to manage settings',
+                        'Managers Settings'
+                    )}
                 </div>
             )
             : (

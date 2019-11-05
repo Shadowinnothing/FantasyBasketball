@@ -12,6 +12,7 @@ import Header from './components/Header'
 import Home from './components/Home'
 import LeaguesPage from './components/LeaguesPage'
 import Login from './components/auth/Login'
+import ManagersPage from './components/ManagersPage'
 import PageNotFound from './components/PageNotFound'
 //import PlayerSearchBar from './components/PlayerSearchBar'
 import SingleFantasyTeamPage from './components/SingleFantasyTeamPage'
@@ -59,6 +60,7 @@ const App = ({ userToken, loadUser, getAllNBAPlayers, getAllNBATeams, loadUsersL
           <Route path="/leagues/:leagueId/createTeam" exact component={ CreateTeamPage } />
           <Route path="/leagues/:leagueId/draft" exact component={ DraftBoard } />
           <Route path="/leagues/:leagueId/teams/:teamId" exact component={ SingleFantasyTeamPage } />
+          <Route path="/leagues/:leagueId/ManagersPage" exact component={ ManagersPage } />
           
           <Route component={ PageNotFound } />
         </Switch>

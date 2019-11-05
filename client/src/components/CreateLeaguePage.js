@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import Select from 'react-select'
 
 import { createNewLeague } from '../redux/actions'
 
@@ -11,10 +12,20 @@ const CreateLeaguePage = ({ isAuthenticated, userAuth, createNewLeague, history,
         leagueType: ''
     })
 
-    const { leagueName, leagueType  } = formData
+    const { leagueName, leagueType } = formData
 
-    const onChange = e => 
+    const leagueTypeOptions = [
+        { value: 'DAILY', label: 'Daily' },
+        { value: 'DYNASTY', label: 'Dynasty' }
+    ]
+
+    const onChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
+    }
+
+    const changeLeagueType = leagueType => {
+        setFormData({ ...formData, leagueType: leagueType.value })
+    }
 
     const onSubmit = async e => {
         e.preventDefault()
@@ -47,14 +58,10 @@ const CreateLeaguePage = ({ isAuthenticated, userAuth, createNewLeague, history,
                         />
                     </div>
 
-                    { /* This needs to be converted to a Dropdown */ }
                     <div>
-                        <input
-                            type="leagueType"
-                            placeholder="League Type"
-                            name="leagueType"
-                            value={ leagueType }
-                            onChange={ e => onChange(e) }
+                        <Select
+                            onChange={ changeLeagueType }
+                            options={ leagueTypeOptions }
                         />
                     </div>
 
