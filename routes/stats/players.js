@@ -39,31 +39,31 @@ const teamNames = [
 // @desc    Get all players in the NBA
 // @access  Public
 router.get('/allPlayers', async (req, res) => {
-    let allPlayers = await nba.get('/players/league/standard')
-    allPlayers = allPlayers.data.api.players.filter(player => player.teamId !== null) // <- filter out players not on a roster
+  let allPlayers = await nba.get('/players/league/standard')
+  allPlayers = allPlayers.data.api.players.filter(player => player.teamId !== null) // <- filter out players not on a roster
 
 	let allTeamData = await nba.get(`/teams/league/standard`)
 	allTeamData = allTeamData.data.api.teams
 
     // Find the team accociated with the given player and attach that data
 	allPlayers = allPlayers.map(player => {
-        let playersTeam = allTeamData.filter(team => team.teamId === player.teamId)[0]
-		return {
-			...player,
-			teamData: {
+    let playersTeam = allTeamData.filter(team => team.teamId === player.teamId)[0]
+    return {
+      ...player,
+      teamData: {
         city: playersTeam.city,
         fullName: playersTeam.fullName,
         nickName: playersTeam.nickname,
         shortName: playersTeam.shortName
       },
       playerPrice: '5000'
-		}
-    })
-    
-    // If a player is not active, remove them from the list
-    allPlayers = allPlayers.filter(player => player.leagues.standard.active === '1')
+    }
+  })
   
-    res.send({ players: allPlayers })
+  // If a player is not active, remove them from the list
+  allPlayers = allPlayers.filter(player => player.leagues.standard.active === '1')
+
+  res.send({ players: allPlayers })
 })
 
 // @route   GET /stats/players/search/:term

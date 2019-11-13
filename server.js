@@ -4,6 +4,9 @@ const date = require('date-and-time')
 const path = require('path')
 const mongoose = require('mongoose')
 
+// Used to make graphql require an jwt to hit
+//const auth = require('./middleware/auth')
+
 // Connect to the DB
 require('./config/db')()
 
