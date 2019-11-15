@@ -33,6 +33,7 @@ const typeDefs = buildSchema(`
         heightInMeters: String,
         weightInKilograms: String
         teamData: TeamData
+        playerPrice: Int
     }
 `)
 

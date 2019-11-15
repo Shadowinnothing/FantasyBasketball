@@ -1,6 +1,7 @@
 // If I ever need to connect the db to graphql
 //const { MongoClient, ObjectId } = require('mongodb')
 
+const calculateFantasySalary = require('../../../middleware/fantasy/calculateFantasySalary')
 const nba = require('../../../apis/nba')
 
 // Resolvers (functions to run various actions)
@@ -31,7 +32,10 @@ const rootResolvers = {
                     nickName: playersTeam.nickname,
                     shortName: playersTeam.shortName
                 },
-            playerPrice: '5000'
+
+                // leave  as default for now, if any bugs occur with playerPrice
+                // having different results on different pages, this could be the culprit
+                playerPrice: 5000
             }
         })
 

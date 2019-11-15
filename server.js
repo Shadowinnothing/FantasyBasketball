@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, '/client/build')))
 // use routes
 app.use('/api/auth', require('./routes/api/auth'))
 app.use('/api/contracts', require('./routes/api/contracts'))
+app.use('/api/fantasyScoring', require('./routes/api/fantasyScoring'))
 app.use('/api/fantasyTeams', require('./routes/api/fantasyTeams'))
 app.use('/api/league', require('./routes/api/league'))
 app.use('/api/users', require('./routes/api/users'))
