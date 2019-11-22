@@ -112,7 +112,7 @@ class Header extends Component {
                         
                         {
                             this.props.isAuthenticated 
-                                ?   <StyledLogoutButton className="right aligned ui red button" onClick={ this.logout }>
+                                ?   <StyledLogoutButton id="logoutButton" className="right aligned ui red button" onClick={ this.logout }>
                                         Logout
                                     </StyledLogoutButton> 
                                 :   null

@@ -40,6 +40,9 @@ app.use('/stats/players', require('./routes/stats/players'))
 app.use('/stats/teams', require('./routes/stats/teams'))
 app.use('/graphql', require('./routes/graphql'))
 
+// Server has to be running to run player salary script
+require('./middleware/fantasy/saveAllPlayerSalariesToDB')
+
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
     console.log(`[${date.format(new Date(), 'hh:mm:ss')}] Node.js Server running on port: ${PORT}`)

@@ -26,5 +26,7 @@ context('User Authorization', () => {
         cy.get('#loginButton').click()
     
         cy.location('pathname').should('eq', '/')
+
+        cy.get('#logoutButton').click()
     })
 })
