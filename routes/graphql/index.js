@@ -1,13 +1,13 @@
 const graphqlHTTP = require('express-graphql')
 
-const resolvers = require('./resolvers')
+const rootResolvers = require('./resolvers')
 const typeDefs = require('./typeDefs')
 
-console.log(`GraphQL Server running on /graphql`)
+console.log(`GraphQL Server running on localhost:4000/graphql`)
 
 module.exports = new graphqlHTTP({
     schema: typeDefs,
-    rootValue: resolvers,
+    rootValue: rootResolvers,
     graphiql: true
 })
 
