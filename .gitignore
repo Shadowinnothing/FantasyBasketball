@@ -5,3 +5,4 @@ config/dev.js
 playground.js
 ./client/yarn.lock
 chromedriver
+/cypress/integration/examples
