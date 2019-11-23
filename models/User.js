@@ -31,6 +31,10 @@ const UserSchema = new Schema({
         type: [ String ],
         default: []
     },
+    isSystemAdmin: {
+        type: Boolean,
+        default: false
+    },
     teams: {
         type: [ String ] // links to teamId
     }

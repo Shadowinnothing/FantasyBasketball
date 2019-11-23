@@ -5,6 +5,7 @@ const router = require('express').Router()
 const { check, validationResult } = require('express-validator')
 
 const auth = require( '../../middleware/auth')
+const systemUserAuth = require( '../../middleware/systemUserAuth')
 const calculateFantasySalary = require('../../middleware/fantasy/calculateFantasySalary')
 const nba = require('../../apis/nba')
 
@@ -13,7 +14,7 @@ const nba = require('../../apis/nba')
 // @access  Private
 router.get('/calculatePlayerSalary', [
 	check('playerId', 'playerId is required').exists(),
-], auth, async (req, res) => {
+], systemUserAuth, async (req, res) => {
 
 	const errors = validationResult(req)
 	if(!errors.isEmpty()){

@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 
 const auth = require( '../../middleware/auth')
 const cleanUser = require( '../../middleware/cleanUser')
+const systemUserAuth = require( '../../middleware/systemUserAuth')
 
 const User = require('../../models/User')
 const { jwtSecret } = require('../../config/keys')
@@ -183,7 +184,7 @@ router.get(`/friends/getAll/:id`, auth, async (req, res) => {
 // @route   DELETE /api/users/clearAllTestUsers
 // @desc    Clear every test user from the database
 // @access  Private
-router.delete(`/clearAllTestUsers`, auth, async (req, res) => {
+router.delete(`/clearAllTestUsers`, systemUserAuth, async (req, res) => {
 
     // grab every user from db, if they're a randomly generated test user, delete them
     await User.find({}, (err, allUsers) => {
