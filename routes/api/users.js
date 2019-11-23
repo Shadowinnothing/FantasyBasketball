@@ -180,4 +180,23 @@ router.get(`/friends/getAll/:id`, auth, async (req, res) => {
     res.status(200).send({ allFriendsData })
 })
 
+// @route   DELETE /api/users/clearAllTestUsers
+// @desc    Clear every test user from the database
+// @access  Private
+router.delete(`/clearAllTestUsers`, auth, async (req, res) => {
+
+    // grab every user from db, if they're a randomly generated test user, delete them
+    await User.find({}, (err, allUsers) => {
+        allUsers.forEach(async user => {
+            const userEmail = user.email.split('@')[1]
+            if(userEmail === 'testUser.com'){
+                User.findOneAndDelete({ _id: user._id })
+                    .then(res => console.log(res))
+            }
+        })
+    })    
+    
+    res.status(200).send({ msg: 'Test Users Deleted' })
+})
+
 module.exports = router

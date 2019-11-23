@@ -10,7 +10,20 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add("login", (email, password) => { ... })
+Cypress.Commands.add("login", (email, password) => {
+    cy.get('input[name="email"]').type(email)
+    cy.get('input[name="password"]').type(password)
+    cy.get('#loginButton').click()
+})
+
+Cypress.Commands.add("registerTestUser", email => {
+    cy.get('input[name="name"]').type('Test User')
+    cy.get('input[name="email"]').type(email)
+    cy.get('input[name="screenName"]').type('Random Gen User')
+    cy.get('input[name="password"]').type('password')
+    cy.get('input[name="password2"]').type('password')
+    cy.get('#registerButton').click()
+})
 //
 //
 // -- This is a child command --

@@ -41,7 +41,8 @@ app.use('/stats/teams', require('./routes/stats/teams'))
 app.use('/graphql', require('./routes/graphql'))
 
 // Server has to be running to run player salary script
-require('./middleware/fantasy/saveAllPlayerSalariesToDB')
+//require('./middleware/fantasy/saveAllPlayerSalariesToDB')
+//console.log('[*CAUTION*]: saveAllPlayerSalariesToDB is about to be run!!!')
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
