@@ -2,7 +2,8 @@ const League = require('../models/League')
 const FantasyTeam = require('../models/FantasyTeam')
 
 // leagueId - league to be updated
-// userId - user making changes
+// userId - Isn't used
+// leagueManagerTeamId - teamId making changes, saves the leagueManager value
 module.exports = async ( leagueId, userId, leagueManagerTeamId ) => {
     // check if leagueId exists
     let leagueToUpdate = await League.findOne({ _id: leagueId }) || null
@@ -24,3 +25,8 @@ module.exports = async ( leagueId, userId, leagueManagerTeamId ) => {
     
     return leagueToUpdate
 }
+
+// {
+//     "leagueSetting": "12",
+//     "leagueSetting 2": "YEET"
+// }

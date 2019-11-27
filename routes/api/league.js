@@ -48,9 +48,9 @@ router.post('/create', [
 // @access  Private
 router.post('/update', auth, async (req, res) => {
 
-    const { user } = req
-    const { leagueId, leagueName, leagueType } = req.body
-    const userId = user.id
+    const { user } = req 
+    const { leagueId, leagueName, leagueType, leagueManagerTeamId, leagueSettings } = req.body
+    //const userId = user.id
 
     let leagueToUpdate = null
 
@@ -59,7 +59,7 @@ router.post('/update', auth, async (req, res) => {
     }
 
     try {
-        leagueToUpdate = await leagueAuth(leagueId, userId)
+        leagueToUpdate = await leagueAuth(leagueId, null, leagueManagerTeamId)
 
         if(leagueToUpdate.errors){
             return res.send(leagueToUpdate.error)
@@ -75,6 +75,14 @@ router.post('/update', auth, async (req, res) => {
             leagueToUpdate.leagueType = leagueType
         }
 
+        // loop through new JSON object and add new values to existing JSON object of league settings
+        for(let key in leagueSettings){
+            for(let setting in leagueSettings[key]){
+                leagueToUpdate._doc.leagueSettings[key][setting] = leagueSettings[key][setting]
+            }
+        }
+
+        console.log( leagueToUpdate )
         await leagueToUpdate.save()
 
         return res.send(leagueToUpdate)
