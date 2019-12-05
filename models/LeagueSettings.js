@@ -82,17 +82,35 @@ const FantasyLeagueSettings = new Schema({
         scoringType: { type: String, default: 'POINTS' },
         pointValues: {
             points: { type: Number, default: 1 },
-            rebounds: { type: Number, default: 1.5 },
             assists: { type: Number, default: 2 },
-            steals: { type: Number, default: 2.5 },
-            blocks: { type: Number, default: 2.5 }
+            offensiveRebounds: { type: Number, default: 1.5 },
+            defensiveRebounds: { type: Number, default: 1.5 },
+            totalRebounds: { type: Number, default: 1.5 },
+            blocks: { type: Number, default: 2.5 },
+            steals: { type: Number, default: 3 },
+            minutes: { type: Number, default: 0.1 },
+            fgm: { type: Number, default: 0.5 },
+            fga: { type: Number, default: 0.25 },
+            ftm: { type: Number, default: 0.75 },
+            fta: { type: Number, default: 0.25 },
+            personalFouls: { type: Number, default: -2 },
+            turnovers: { type: Number, default: -1 }
         },
         categoryValues: {
             points: { type: Boolean, default: false },
-            rebounds: { type: Boolean, default: false },
             assists: { type: Boolean, default: false },
+            offensiveRebounds: { type: Boolean, default: false },
+            defensiveRebounds: { type: Boolean, default: false },
+            totalRebounds: { type: Boolean, default: false },
+            blocks: { type: Boolean, default: false },
             steals: { type: Boolean, default: false },
-            blocks: { type: Boolean, default: false }
+            minutes: { type: Boolean, default: false },
+            fgm: { type: Boolean, default: false },
+            fga: { type: Boolean, default: false },
+            ftm: { type: Boolean, default: false },
+            fta: { type: Boolean, default: false },
+            personalFouls: { type: Boolean, default: false },
+            turnovers: { type: Boolean, default: false }
         }
     },
     trade: {

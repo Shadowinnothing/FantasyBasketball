@@ -61,9 +61,19 @@ const ManagersPage = ({ userToken, usersFriends, usersTeams, match, userId }) =>
         })
     }
 
+    // render each setting that is editable 1 by 1 to clean code
+    const renderInputBox =  () => {
+
+    }
+
     return (
         <div>
             <ul>{ renderFriendList() }</ul>
+
+            { /*
+                divisions - numberOfDivisions, division names
+                draft - allowDraftPickTrading, draftTime, draftType, draftOrder, timePerPick
+            */ }
         </div>
     )
 }
